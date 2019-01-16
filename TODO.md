@@ -1,3 +1,8 @@
+## Addressing mode
+### Immediate
+### Offset
+### Memory
+## Instructions
 ### Load and store
 - LDA: load accumulator
 - LDX: Load X
