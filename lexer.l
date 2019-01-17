@@ -1,6 +1,10 @@
 %{
     #include <stdio.h>
 %}
+
+%option header-file="lexer.h"
+%option bison-bridge
+
 LDA (?i:LDA)
 LDX (?i:LDX)
 LDY (?i:LDY)
