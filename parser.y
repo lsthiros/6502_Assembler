@@ -6,6 +6,9 @@
         uint16_t num;
     } Number;
 
+    typedef struct Statement {
+    } Statement;
+
 %}
 
 %union {
@@ -24,11 +27,11 @@ statements:
     | statements statement;
 
 statement:
-    LABEL ":" statement { /* Marked location */ }
+    LABEL ":" { /* Marked location */ }
     | operation { /* Terminating op */ };
 
 operation:
-    OPCODE address { /* addressed opcode */ }
+    OPCODE addressCode { /* addressed opcode */ }
     | OPCODE { /* immediate opcode */ }
 
 address:
