@@ -3,72 +3,15 @@
 %}
 
 %option header-file="lexer.h"
-/* %option bison-bridge */
-
-LDA (?i:LDA)
-LDX (?i:LDX)
-LDY (?i:LDY)
-STA (?i:STA)
-STX (?i:STX)
-STY (?i:STY)
-ADC (?i:ADC)
-SBC (?i:SBC)
-INC (?i:INC)
-INX (?i:INX)
-INY (?i:INY)
-DEC (?i:DEC)
-DEX (?i:DEX)
-DEY (?i:DEY)
-AND (?i:AND)
-ORA (?i:ORA)
-EOR (?i:EOR)
-JMP (?i:JMP)
-BCC (?i:BCC)
-BCS (?i:BCS)
-BEQ (?i:BEQ)
-BNE (?i:BNE)
-BMI (?i:BMI)
-BPL (?i:BPL)
-BVS (?i:BVS)
-BVC (?i:BVC)
-CMP (?i:CMP)
-CPX (?i:CPX)
-CPY (?i:CPY)
-BIT (?i:BIT)
-ASL (?i:ASL)
-LSR (?i:LSR)
-ROL (?i:ROL)
-ROR (?i:ROR)
-TSX (?i:TSX)
-TXS (?i:TXS)
-PHA (?i:PHA)
-PHP (?i:PHP)
-PLA (?i:PLA)
-PLP (?i:PLP)
-JSR (?i:JSR)
-RTS (?i:RTS)
-RTI (?i:RTI)
-CLC (?i:CLC)
-CLD (?i:CLD)
-CLI (?i:CLI)
-CLV (?i:CLV)
-SEC (?i:SEC)
-SED (?i:SED)
-SEI (?i:SEI)
-NOP (?i:NOP)
-BRK (?i:BRK)
-
-LABEL [a-zA-Z_][a-zA-Z0-9_]*
-SMALL_VAL "$"[a-fA-F0-9]{2}
-
+%option bison-bridge
 
 %%
 
-(?i:[xy]) {
+[XY] {
     printf("Found indexer: %s\n", yytext);
 }
 
-(?i:a) {
+[A] {
     printf("Found accumulator token: %s\n", yytext);
 }
 
@@ -76,60 +19,58 @@ SMALL_VAL "$"[a-fA-F0-9]{2}
 
 \$[a-fA-F0-9]{2} { printf("Zero page address: %s\n", yytext ); }
 
-{LDA} |
-{LDX} |
-{LDY} |
-{STA} |
-{STX} |
-{STY} |
-{ADC} |
-{SBC} |
-{INC} |
-{INX} |
-{INY} |
-{DEC} |
-{DEX} |
-{DEY} |
-{AND} |
-{ORA} |
-{EOR} |
-{JMP} |
-{BCC} |
-{BCS} |
-{BEQ} |
-{BNE} |
-{BMI} |
-{BPL} |
-{BVS} |
-{BVC} |
-{CMP} |
-{CPX} |
-{CPY} |
-{BIT} |
-{ASL} |
-{LSR} |
-{ROL} |
-{ROR} |
-{TSX} |
-{TXS} |
-{PHA} |
-{PHP} |
-{PLA} |
-{PLP} |
-{JSR} |
-{RTS} |
-{RTI} |
-{CLC} |
-{CLD} |
-{CLI} |
-{CLV} |
-{SEC} |
-{SED} |
-{SEI} |
-{NOP} |
-{BRK} {
-    printf( "OwO an opcode? %s\n", yytext );
-}
+(?i:LDA) { yylval.op = LDA; return OPCODE;}
+(?i:LDX) { yylval.op = LDX; return OPCODE;}
+(?i:LDY) { yylval.op = LDY; return OPCODE;}
+(?i:STA) { yylval.op = STA; return OPCODE;}
+(?i:STX) { yylval.op = STX; return OPCODE;}
+(?i:STY) { yylval.op = STY; return OPCODE;}
+(?i:ADC) { yylval.op = ADC; return OPCODE;}
+(?i:SBC) { yylval.op = SBC; return OPCODE;}
+(?i:INC) { yylval.op = INC; return OPCODE;}
+(?i:INX) { yylval.op = INX; return OPCODE;}
+(?i:INY) { yylval.op = INY; return OPCODE;}
+(?i:DEC) { yylval.op = DEC; return OPCODE;}
+(?i:DEX) { yylval.op = DEX; return OPCODE;}
+(?i:DEY) { yylval.op = DEY; return OPCODE;}
+(?i:AND) { yylval.op = AND; return OPCODE;}
+(?i:ORA) { yylval.op = ORA; return OPCODE;}
+(?i:EOR) { yylval.op = EOR; return OPCODE;}
+(?i:JMP) { yylval.op = JMP; return OPCODE;}
+(?i:BCC) { yylval.op = BCC; return OPCODE;}
+(?i:BCS) { yylval.op = BCS; return OPCODE;}
+(?i:BEQ) { yylval.op = BEQ; return OPCODE;}
+(?i:BNE) { yylval.op = BNE; return OPCODE;}
+(?i:BMI) { yylval.op = BMI; return OPCODE;}
+(?i:BPL) { yylval.op = BPL; return OPCODE;}
+(?i:BVS) { yylval.op = BVS; return OPCODE;}
+(?i:BVC) { yylval.op = BVC; return OPCODE;}
+(?i:CMP) { yylval.op = CMP; return OPCODE;}
+(?i:CPX) { yylval.op = CPX; return OPCODE;}
+(?i:CPY) { yylval.op = CPY; return OPCODE;}
+(?i:BIT) { yylval.op = BIT; return OPCODE;}
+(?i:ASL) { yylval.op = ASL; return OPCODE;}
+(?i:LSR) { yylval.op = LSR; return OPCODE;}
+(?i:ROL) { yylval.op = ROL; return OPCODE;}
+(?i:ROR) { yylval.op = ROR; return OPCODE;}
+(?i:TSX) { yylval.op = TSX; return OPCODE;}
+(?i:TXS) { yylval.op = TXS; return OPCODE;}
+(?i:PHA) { yylval.op = PHA; return OPCODE;}
+(?i:PHP) { yylval.op = PHP; return OPCODE;}
+(?i:PLA) { yylval.op = PLA; return OPCODE;}
+(?i:PLP) { yylval.op = PLP; return OPCODE;}
+(?i:JSR) { yylval.op = JSR; return OPCODE;}
+(?i:RTS) { yylval.op = RTS; return OPCODE;}
+(?i:RTI) { yylval.op = RTI; return OPCODE;}
+(?i:CLC) { yylval.op = CLC; return OPCODE;}
+(?i:CLD) { yylval.op = CLD; return OPCODE;}
+(?i:CLI) { yylval.op = CLI; return OPCODE;}
+(?i:CLV) { yylval.op = CLV; return OPCODE;}
+(?i:SEC) { yylval.op = SEC; return OPCODE;}
+(?i:SED) { yylval.op = SED; return OPCODE;}
+(?i:SEI) { yylval.op = SEI; return OPCODE;}
+(?i:NOP) { yylval.op = NOP; return OPCODE;}
+(?i:BRK) { yylval.op = BRK; return OPCODE;}
 
 {LABEL} {
     printf("Label: %s\n", yytext);

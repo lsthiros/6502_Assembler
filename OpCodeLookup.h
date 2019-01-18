@@ -56,4 +56,9 @@ typedef enum OpCodeType {
     BRK
 } OpCodeType;
 
+typedef enum AddressMode {
+    INDIRECT, REL_ABS_ZP, INDIRECT_ABS, ABS_X, ABS_Y, ZP_X, ZP_Y, INDEX_IND,
+    IND_INDEX, ACC, IMMEDIATE}
+} AddressMode;
+
 #endif // OP_CODE_LOOKUP
