@@ -3,7 +3,7 @@
 %}
 
 %option header-file="lexer.h"
-%option bison-bridge
+/* %option bison-bridge */
 
 LDA (?i:LDA)
 LDX (?i:LDX)
@@ -58,15 +58,23 @@ SEI (?i:SEI)
 NOP (?i:NOP)
 BRK (?i:BRK)
 
-HASHMARK "#"
 LABEL [a-zA-Z_][a-zA-Z0-9_]*
-LABEL_DELIMIT ":"
-OPEN_PAREN "("
-CLOSED_PAREN ")"
-SMALL_VAL $[0-9a-fA-F]{2}
-LARGE_VAL $[0-9a-fA-F]{4}
+SMALL_VAL "$"[a-fA-F0-9]{2}
+
 
 %%
+
+(?i:[xy]) {
+    printf("Found indexer: %s\n", yytext);
+}
+
+(?i:a) {
+    printf("Found accumulator token: %s\n", yytext);
+}
+
+\$[a-fA-F0-9]{4} { printf("Regular address: %s\n", yytext ); }
+
+\$[a-fA-F0-9]{2} { printf("Zero page address: %s\n", yytext ); }
 
 {LDA} |
 {LDX} |
@@ -127,7 +135,12 @@ LARGE_VAL $[0-9a-fA-F]{4}
     printf("Label: %s\n", yytext);
 }
 
-[ \t\n]+ /* Eat whitespace */
+
+","|":"|"#"|"("|")" {
+    printf("Found a gramar token: %s\n", yytext);
+}
+
+[ \t\n]+ { /* Eat whitespace */ }
 
 . {
     printf( "Unrecognized character: %s\n", yytext );

@@ -3,8 +3,9 @@
 
     typedef struct Number {
         char isZeroPage;
-        int num;
+        uint16_t num;
     } Number;
+
 %}
 
 %union {
@@ -22,15 +23,23 @@
 statements:
     | statements statement;
 
-address:
-    "#" NUMBER { /* Indirect */ }
-    | NUMBER { /* Relative, Abs, or Zero Page */}
-    | "(" NUMBER ")" { /* Indirect Abs */ }
-    | NUMBER "," INDEXER { /* Absolute/ZP, X/Y index */ }
-    | "(" NUMBER "," INDEXER ")" { /* Index Ind */ }
-    | "(" NUMBER ")" "," INDEXER { /* Index Ind */ }
-    | "A" { /* Accumulator */ };
-
-
 statement:
-    LABEL ":" 
+    LABEL ":" statement { /* Marked location */ }
+    | operation { /* Terminating op */ };
+
+operation:
+    OPCODE address { /* addressed opcode */ }
+    | OPCODE { /* immediate opcode */ }
+
+address:
+    NUMBER
+    | LABEL;
+
+addressCode:
+    "#" address { /* Indirect */ }
+    | address { /* Relative, Abs, or Zero Page */}
+    | "(" address ")" { /* Indirect Abs */ }
+    | address "," INDEXER { /* Absolute/ZP, X/Y index */ }
+    | "(" address "," INDEXER ")" { /* Index Ind */ }
+    | "(" address ")" "," INDEXER { /* Index Ind */ }
+    | "A" { /* Accumulator */ };
