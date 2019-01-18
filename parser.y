@@ -6,11 +6,16 @@
         uint16_t num;
     } Number;
 
+    typedef struct LiteralAddress {
+        uint8_t isZp;
+        uint16_t literal;
+    } LiteralAddress;
+
     typedef struct AddressLocation {
         uint8_t isLabel;
         union {
-            uint16_t literal;
             char *label;
+            LiteralAddress *literal;
         } val;
     } AddressLocation;
 
@@ -28,7 +33,7 @@
 %union {
     OpCodeType op;
     char *str;
-    Number num;
+    LiteralAddress *addrLit;
     AddressLocation *addrLoc;
     AddressCode *addrCode;
 }
@@ -36,7 +41,7 @@
 %token <str> LABEL
 %token <str> INDEXER
 %token <op>  OPCODE
-%token <num> NUMBER
+%token <addrLit> NUMBER
 
 %type <addrLoc> address
 %type <addrCode> addressCode
@@ -50,8 +55,17 @@ statement:
     | operation { /* Terminating op */ };
 
 operation:
-    OPCODE addressCode { /* addressed opcode */ }
-    | OPCODE { /* immediate opcode */ };
+    OPCODE addressCode { /* addressed opcode */ 
+        $$ = malloc(sizeof(Operation));
+        $$->type = $1;
+        $$->code = $2;
+    }
+    | OPCODE { /* immediate opcode */
+        $$ = malloc(sizeof(Operation));
+        $$->type = $1;
+        /* NULL address code indicates Implied mode */
+        $$->code = NULL;
+    };
 
 address:
     NUMBER {
@@ -81,7 +95,27 @@ addressCode:
         $$->mode = IND_ABS;
         $$->location = $2;
     }
-    | address "," INDEXER { /* Absolute/ZP, X/Y index */ }
-    | "(" address "," INDEXER ")" { /* Index Ind */ }
-    | "(" address ")" "," INDEXER { /* Ind Index */ }
-    | "A" { /* Accumulator */ };
+    | address "," INDEXER { /* Absolute/ZP, X/Y index */
+        $$ = malloc(sizeof(AddressCode));
+        if (strcmp($3, "X") == 0) {
+            $$->mode = ABS_X;
+        } else {
+            $$->mode = ABS_Y;
+        }
+        $$->location = $2;
+    }
+    | "(" address "," INDEXER ")" { /* Index Ind */ 
+        $$ = malloc(sizeof(AddressCode));
+        $$->mode = INDEX_IND;
+        $$->location = $2;
+    }
+    | "(" address ")" "," INDEXER { /* Ind Index */
+        $$ = malloc(sizeof(AddressCode));
+        $$->mode = IND_INDEX;
+        $$->location = $2;
+    }
+    | "A" { /* Accumulator */
+        $$ = malloc(sizeof(AddressCode));
+        $$->mode = ACCUMULATOR;
+        $$->location = NULL;
+    };
