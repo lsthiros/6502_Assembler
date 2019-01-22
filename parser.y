@@ -1,5 +1,6 @@
 %{
     #include "OpCodeLookup.h"
+    #include "ParserDefs.h"
 
     typedef struct Number {
         char isZeroPage;

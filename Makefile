@@ -1,5 +1,10 @@
-lexer: lex.yy.c
-	gcc lex.yy.c -ll -o lexer
+all: ParseTree.o Lexer.yy.o
 
-lex.yy.c: lexer.l
-	flex lexer.l
+ParseTree.o: ParseTree.c
+	gcc ParseTree.c -c -o ParseTree.o
+
+Lexer.yy.o: Lexer.yy.c
+	gcc Lexer.yy.c -c -o Lexer.yy.o
+
+Lexer.yy.c: lexer.l
+	flex -o Lexer.yy.c lexer.l

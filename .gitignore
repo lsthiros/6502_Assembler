@@ -1,3 +1,7 @@
 lex.yy.c
 lexer
 lexer.h
+Lexer.yy.c
+ParseTree.o
+Parser.tab.h
+parser.tab.c

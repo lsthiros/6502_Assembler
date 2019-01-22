@@ -1,8 +1,9 @@
 %{
+    #include "OpCodeLookup.h"
     #include <stdio.h>
 %}
 
-%option header-file="lexer.h"
+%option header-file="Lexer.h"
 %option bison-bridge
 
 %%

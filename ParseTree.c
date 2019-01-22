@@ -1,6 +1,8 @@
-#include "ParseTree.h"
+#include "ParserDefs.h"
 
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct {
     char *key;
@@ -14,7 +16,15 @@ typedef struct {
     Record *records;
 } Table;
 
+typedef struct FirstPass {
+    Operation *head;
+    Operation *tail;
+    Table *table;
+} FirstPass;
+
 static unsigned long sdbm(uint8_t *str);
+static void innerEntry(Record *records, unsigned int size, char *key, int value);
+Table *initTable();
 
 static void innerEntry(Record *records, unsigned int size, char *key, int value) {
     unsigned long seed = sdbm(key) % size;
@@ -39,7 +49,21 @@ Table *initTable() {
     return ret;
 }
 
-uint8_t searchTable(Table *table, char *key)
+uint8_t searchTable(Table *table, char *key, int *ret) {
+    unsigned long seed = sdbm(key) % table->size;
+    Record *current = &(table->records[seed]);
+
+    while (current->valid && strcmp(key, current->key))
+        current++;
+    
+    if (current->valid) {
+        if (ret)
+            *ret = current->value;
+        return 1;
+    }
+
+    return 0;
+}
 
 static void rehash(Table *oldTable) {
     int idx;
