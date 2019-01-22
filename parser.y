@@ -54,7 +54,7 @@ statements:
     | statements statement;
 
 statement:
-    LABEL { /* Marked location */ }
+    LABEL_DEC { /* Marked location */ }
     | operation { /* Terminating op */ };
 
 operation:
@@ -62,12 +62,6 @@ operation:
         $$ = malloc(sizeof(Operation));
         $$->type = $1;
         $$->code = $2;
-    };
-    | OPCODE { /* immediate opcode */
-         $$ = malloc(sizeof(Operation));
-         $$->type = $1;
-         /* NULL address code indicates Implied mode */
-       $$->code = NULL;
     };
 
 address:
@@ -121,4 +115,7 @@ addressCode:
         $$ = malloc(sizeof(AddressCode));
         $$->mode = ACCUMULATOR;
         $$->location = NULL;
+    }
+    | { /* No address. Implied mode */
+        $$ = NULL;
     };

@@ -72,14 +72,21 @@
 (?i:NOP) { yylval.op = NOP; return OPCODE;}
 (?i:BRK) { yylval.op = BRK; return OPCODE;}
 
-{LABEL} {
-    printf("Label: %s\n", yytext);
-}
-
-
-","|":"|"#"|"("|")" {
+","|"#"|"("|")" {
     printf("Found a gramar token: %s\n", yytext);
+    return yytext;
 }
+
+[a-zA-Z_][a-zA-Z0-9_]*[:] {
+    yylval.str = yytext;
+    return LABEL_DEC;
+}
+
+[a-zA-Z_][a-zA-Z0-9_]* {
+    yylval.str = yytext;
+    return LABEL;
+}
+
 
 [ \t\n]+ { /* Eat whitespace */ }
 
