@@ -6,5 +6,11 @@ ParseTree.o: ParseTree.c
 Lexer.yy.o: Lexer.yy.c
 	gcc Lexer.yy.c -c -o Lexer.yy.o
 
-Lexer.yy.c: lexer.l
-	flex -o Lexer.yy.c lexer.l
+Lexer.yy.c: Lexer.l
+	flex -o Lexer.yy.c Lexer.l
+
+Parser.o: Parser.c
+	gcc Parser.c -c -o Parser.o
+
+Parser.c: Parser.y
+	bison -o Parser.c -d Parser.y

@@ -2,7 +2,7 @@
 #define OP_CODE_LOOKUP
 
 typedef enum OpCodeType {
-    LDA,
+    LDA = 0,
     LDX,
     LDY,
     STA,
@@ -57,8 +57,20 @@ typedef enum OpCodeType {
 } OpCodeType;
 
 typedef enum AddressMode {
-    INDIRECT, REL_ABS_ZP, INDIRECT_ABS, ABS_X, ABS_Y, ZP_X, ZP_Y, INDEX_IND,
-    IND_INDEX, ACC, IMMEDIATE}
+    ABS_X = 0,
+    ABS_Y,
+    ACCUMULATOR,
+    IMMEDIATE,
+    IMPLIED,
+    INDEX_IND,
+    IND_INDEX,
+    INDIRECT,
+    INDIRECT_ABS,
+    REL_ABS_ZP,
+    ZP_X,
+    ZP_Y
 } AddressMode;
+
+unsigned int opCodeLength(AddressMode mode);
 
 #endif // OP_CODE_LOOKUP

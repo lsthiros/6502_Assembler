@@ -16,15 +16,35 @@ typedef struct {
     Record *records;
 } Table;
 
-typedef struct FirstPass {
-    Operation *head;
-    Operation *tail;
+typedef struct OpNode {
+    Operation *op;
+    struct OpNode *next;
+} OpNode;
+
+typedef struct OpList {
+    OpNode *head;
+    OpNode *tail;
     Table *table;
-} FirstPass;
+} OpList;
 
 static unsigned long sdbm(uint8_t *str);
 static void innerEntry(Record *records, unsigned int size, char *key, int value);
 Table *initTable();
+
+void initOpList(OpList *list) {
+    OpNode *next = calloc(sizeof(OpNode), 1);
+    list->head = next;
+    list->tail = next;
+}
+
+void addOperation(FirstPass *firstPass, Operation *op) {
+    OpNode *nextNode = malloc(sizeof(OpNode));
+    nextNode->op = op;
+    nextNode->next = NULL;
+
+    firstPass->tail->next = nextNode;
+    firstPass->tail = nextNode;
+}
 
 static void innerEntry(Record *records, unsigned int size, char *key, int value) {
     unsigned long seed = sdbm(key) % size;
@@ -95,6 +115,12 @@ void insertTable(Table *table, char *key, int value) {
 }
 
 void destroyTable(Table *table) {
+    int idx;
+
+    for (idx = 0; idx < table->size; idx++) {
+        if (table->records[idx].valid)
+            free(table->records[idx].key);
+    }
     free(table->records);
     free(table);
 }

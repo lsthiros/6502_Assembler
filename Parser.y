@@ -2,6 +2,10 @@
     #include "OpCodeLookup.h"
     #include "ParserDefs.h"
 
+    #include <stdint.h>
+    #include <stdlib.h>
+    #include <string.h>
+
     typedef struct Number {
         char isZeroPage;
         uint16_t num;
@@ -28,7 +32,14 @@
     typedef struct Operation {
         OpCodeType type;
         AddressCode *code;
+        unsigned int position;
     } Operation;
+
+    typedef struct ParseContext {
+        OpList *list;
+        Table *table;
+        unsigned int position;
+    } ParseContext;
 %}
 
 %union {
@@ -49,20 +60,29 @@
 %type <addrLoc> address
 %type <addrCode> addressCode
 %type <operation> operation
+
+%parse-param {ParseContext *context}
+
 %%
 
 statements:
     | statements statement;
 
 statement:
-    LABEL_DEC { /* Marked location */ }
-    | operation { /* Terminating op */ };
+    LABEL_DEC {
+        insertTable(context->table, $1, context->position);
+    }
+    | operation {
+        $$->position = context->position;
+        context->position += opCodeLength(
+    };
 
 operation:
     OPCODE addressCode { /* addressed opcode */ 
         $$ = malloc(sizeof(Operation));
         $$->type = $1;
         $$->code = $2;
+        $$->nextOp = NULL;
     };
 
 address:
@@ -90,7 +110,7 @@ addressCode:
     }
     | "(" address ")" { /* Indirect Abs */
         $$ = malloc(sizeof(AddressCode));
-        $$->mode = IND_ABS;
+        $$->mode = INDIRECT_ABS;
         $$->location = $2;
     }
     | address "," INDEXER { /* Absolute/ZP, X/Y index */
@@ -118,5 +138,7 @@ addressCode:
         $$->location = NULL;
     }
     | { /* No address. Implied mode */
-        $$ = NULL;
+        $$ = malloc(sizeof(AddressCode));
+        $$->mode = IMPLIED;
+        $$->location = NULL;
     };
