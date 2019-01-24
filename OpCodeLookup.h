@@ -59,18 +59,18 @@ typedef enum OpCodeType {
 typedef enum AddressMode {
     ABS_X = 0,
     ABS_Y,
+    ABSOLUTE,
     ACCUMULATOR,
     IMMEDIATE,
     IMPLIED,
     INDEX_IND,
     IND_INDEX,
-    INDIRECT,
     INDIRECT_ABS,
-    REL_ABS_ZP,
+    REL_ZP,
     ZP_X,
     ZP_Y
 } AddressMode;
 
-unsigned int opCodeLength(AddressMode mode);
+unsigned int opCodeLength(AddressMode mode, OpCodeType type);
 
 #endif // OP_CODE_LOOKUP

@@ -5,41 +5,6 @@
     #include <stdint.h>
     #include <stdlib.h>
     #include <string.h>
-
-    typedef struct Number {
-        char isZeroPage;
-        uint16_t num;
-    } Number;
-
-    typedef struct LiteralAddress {
-        uint8_t isZp;
-        uint16_t literal;
-    } LiteralAddress;
-
-    typedef struct AddressLocation {
-        uint8_t isLabel;
-        union {
-            char *label;
-            LiteralAddress *literal;
-        } val;
-    } AddressLocation;
-
-    typedef struct AddressCode {
-        AddressMode mode;
-        AddressLocation *location;
-    } AddressCode;
-
-    typedef struct Operation {
-        OpCodeType type;
-        AddressCode *code;
-        unsigned int position;
-    } Operation;
-
-    typedef struct ParseContext {
-        OpList *list;
-        Table *table;
-        unsigned int position;
-    } ParseContext;
 %}
 
 %union {
@@ -74,7 +39,7 @@ statement:
     }
     | operation {
         $$->position = context->position;
-        context->position += opCodeLength(
+        context->position += opCodeLength($1->mode);
     };
 
 operation:
@@ -98,22 +63,22 @@ address:
     };
 
 addressCode:
-    "#" address {
+    '#' address {
         $$ = malloc(sizeof(AddressCode));
         $$->mode = IMMEDIATE;
         $$->location = $2;
     }
     | address { /* Relative, Absolute, or Zero Page */
         $$ = malloc(sizeof(AddressCode));
-        $$->mode = REL_ABS_ZP;
+        $$->mode = (!($1->isLabel) && !($1->literal->isZp)) ? REL_ZP : ABSOLUTE;
         $$->location = $1;
     }
-    | "(" address ")" { /* Indirect Abs */
+    | '(' address ')' { /* Indirect Abs */
         $$ = malloc(sizeof(AddressCode));
         $$->mode = INDIRECT_ABS;
         $$->location = $2;
     }
-    | address "," INDEXER { /* Absolute/ZP, X/Y index */
+    | address ',' INDEXER { /* Absolute/ZP, X/Y index */
         $$ = malloc(sizeof(AddressCode));
         if (strcmp($3, "X") == 0) {
             $$->mode = ABS_X;
@@ -122,17 +87,17 @@ addressCode:
         }
         $$->location = $1;
     }
-    | "(" address "," INDEXER ")" { /* Index Ind */ 
+    | '(' address ',' INDEXER ')' { /* Index Ind */ 
         $$ = malloc(sizeof(AddressCode));
         $$->mode = INDEX_IND;
         $$->location = $2;
     }
-    | "(" address ")" "," INDEXER { /* Ind Index */
+    | '(' address ')' ',' INDEXER { /* Ind Index */
         $$ = malloc(sizeof(AddressCode));
         $$->mode = IND_INDEX;
         $$->location = $2;
     }
-    | "A" { /* Accumulator */
+    | 'A' { /* Accumulator */
         $$ = malloc(sizeof(AddressCode));
         $$->mode = ACCUMULATOR;
         $$->location = NULL;

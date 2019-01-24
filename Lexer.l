@@ -1,6 +1,12 @@
 %{
     #include "OpCodeLookup.h"
     #include <stdio.h>
+
+    #define LITERAL(IS_ZP) \
+    yylval.addrLit = malloc(sizeof(LiteralAddress)); \
+    yylval.addrLit->isZp = IS_ZP; \
+    yylval.addrLit->literal = strtol(yytext + 1, NULL, 16);
+    
 %}
 
 %option header-file="Lexer.h"
@@ -10,15 +16,21 @@
 
 [XY] {
     printf("Found indexer: %s\n", yytext);
+    return yytext[0];
 }
 
 [A] {
     printf("Found accumulator token: %s\n", yytext);
+    return yytext[0];
 }
 
-\$[a-fA-F0-9]{4} { printf("Regular address: %s\n", yytext ); }
+\$[a-fA-F0-9]{4} {
+    LITERAL(0);
+}
 
-\$[a-fA-F0-9]{2} { printf("Zero page address: %s\n", yytext ); }
+\$[a-fA-F0-9]{2} {
+    LITERAL(1);
+}
 
 (?i:LDA) { yylval.op = LDA; return OPCODE;}
 (?i:LDX) { yylval.op = LDX; return OPCODE;}
@@ -75,16 +87,16 @@
 
 ","|"#"|"("|")" {
     printf("Found a gramar token: %s\n", yytext);
-    return yytext;
+    return yytext[0];
 }
 
 [a-zA-Z_][a-zA-Z0-9_]*[:] {
-    yylval.str = yytext;
+    yylval.str = strndup(yytext, strlen(yytext) - 1);
     return LABEL_DEC;
 }
 
 [a-zA-Z_][a-zA-Z0-9_]* {
-    yylval.str = yytext;
+    yylval.str = strdup(yytext);
     return LABEL;
 }
 
