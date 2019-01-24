@@ -1,7 +1,6 @@
 %{
     #include "OpCodeDefs.h"
     #include "ParserPrimitives.h"
-    #include "ParseTree.h"
 
     #include "Parser.h"
     #include "Lexer.h"
@@ -10,17 +9,16 @@
     #include <stdlib.h>
     #include <string.h>
 
-    typedef struct ParseContext {
-        OpList *list;
-        unsigned int position;
-    } ParseContext;
-
-
     void printOp(Operation *operation) {
         printf("Name: %s\n", opName(operation->type));
         if (operation->code) {
             printf("Mode: %s\n", opAddressModeName(operation->code->mode));
         }
+    }
+
+    void initContext(ParseContext *context) {
+        context->position = 0;
+        context->list = initOpList();
     }
 %}
 
@@ -30,13 +28,25 @@
 %parse-param { ParseContext *context }
 
 %code requires {
+    #include "ParseTree.h"
+
     #ifndef YY_TYPEDEF_YY_SCANNER_T
     #define YY_TYPEDEF_YY_SCANNER_T
     typedef void* yyscan_t;
     #endif
     int yylex();
     int yyerror();
+
+
+    typedef struct ParseContext {
+        OpList *list;
+        unsigned int position;
+    } ParseContext;
+
+    void printOp(Operation *operation);
+    void initContext(ParseContext *context);
 }
+
 
 %union {
     OpCodeType op;

@@ -1,4 +1,8 @@
-all: ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o
+assembler: ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o main.o
+	gcc ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o main.o -o assembler
+
+main.o: main.c
+	gcc main.c -c -o main.o
 
 OpCodeDefs.o: OpCodeDefs.c
 	gcc OpCodeDefs.c -c -o OpCodeDefs.o
@@ -19,4 +23,4 @@ Parser.c: Parser.y
 	bison -o Parser.c -d Parser.y
 
 clean:
-	rm -f Parser.c Parser.h Lexer.yy.c Lexer.yy.h ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o
+	rm -f Parser.c Parser.h Lexer.yy.c Lexer.yy.h ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o main.o
