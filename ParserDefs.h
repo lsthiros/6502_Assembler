@@ -1,38 +1,36 @@
 #ifndef PARSER_DEFS_H
 #define PARSER_DEFS_H
-    typedef struct LiteralAddress LiteralAddress;
-    typedef struct AddressLocation AddressLocation;
-    typedef struct AddressCode AddressCode;
-    typedef struct Operation Operation;
+#include "OpCodeLookup.h"
+#include <stdint.h>
 
-    typedef struct LiteralAddress {
-        uint8_t isZp;
-        uint16_t literal;
-    } LiteralAddress;
+typedef struct LiteralAddress LiteralAddress;
+typedef struct AddressLocation AddressLocation;
+typedef struct AddressCode AddressCode;
+typedef struct Operation Operation;
+typedef struct ParseContext ParseContext;
 
-    typedef struct AddressLocation {
-        uint8_t isLabel;
-        union {
-            char *label;
-            LiteralAddress *literal;
-        } val;
-    } AddressLocation;
+typedef struct LiteralAddress {
+uint8_t isZp;
+uint16_t literal;
+} LiteralAddress;
 
-    typedef struct AddressCode {
-        AddressMode mode;
-        AddressLocation *location;
-    } AddressCode;
+typedef struct AddressLocation {
+uint8_t isLabel;
+union {
+    char *label;
+    LiteralAddress *literal;
+} val;
+} AddressLocation;
 
-    typedef struct Operation {
-        OpCodeType type;
-        AddressCode *code;
-        unsigned int position;
-    } Operation;
+typedef struct AddressCode {
+AddressMode mode;
+AddressLocation *location;
+} AddressCode;
 
-    typedef struct ParseContext {
-        OpList *list;
-        Table *table;
-        unsigned int position;
-    } ParseContext;
+typedef struct Operation {
+OpCodeType type;
+AddressCode *code;
+unsigned int position;
+} Operation;
 
 #endif

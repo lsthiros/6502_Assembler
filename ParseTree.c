@@ -1,3 +1,4 @@
+#include "ParseTree.h"
 #include "ParserDefs.h"
 
 #include <stdint.h>
@@ -27,23 +28,29 @@ typedef struct OpList {
     Table *table;
 } OpList;
 
+static Table *initTable();
 static unsigned long sdbm(uint8_t *str);
 static void innerEntry(Record *records, unsigned int size, char *key, int value);
-Table *initTable();
+static void rehash(Table *oldTable);
+static void destroyTable(Table *table);
 
-void initOpList(OpList *list) {
+OpList *initOpList() {
+    OpList *list = calloc(sizeof(OpList), 1);
     OpNode *next = calloc(sizeof(OpNode), 1);
     list->head = next;
     list->tail = next;
+    list->table = initTable();
+
+    return list;
 }
 
-void addOperation(FirstPass *firstPass, Operation *op) {
+void addOperation(OpList *list, Operation *op) {
     OpNode *nextNode = malloc(sizeof(OpNode));
     nextNode->op = op;
     nextNode->next = NULL;
 
-    firstPass->tail->next = nextNode;
-    firstPass->tail = nextNode;
+    list->tail->next = nextNode;
+    list->tail = nextNode;
 }
 
 static void innerEntry(Record *records, unsigned int size, char *key, int value) {
@@ -60,7 +67,7 @@ static void innerEntry(Record *records, unsigned int size, char *key, int value)
     current->valid = 1;
 }
 
-Table *initTable() {
+static Table *initTable() {
     Table *ret = malloc(sizeof(Table));
     ret->records = calloc(sizeof(Record), 128);
     ret->filled = 0;
@@ -69,7 +76,8 @@ Table *initTable() {
     return ret;
 }
 
-uint8_t searchTable(Table *table, char *key, int *ret) {
+uint8_t searchLabels(OpList *list, char *key, int *ret) {
+    Table *table = list->table;
     unsigned long seed = sdbm(key) % table->size;
     Record *current = &(table->records[seed]);
 
@@ -103,7 +111,8 @@ static void rehash(Table *oldTable) {
     oldTable->size = newsize;
 }
 
-void insertTable(Table *table, char *key, int value) {
+void insertLabel(OpList *list, char *key, int value) {
+    Table *table = list->table;
     char *newKey = strdup(key);
 
     if (table->filled * 2 > table->size) {
@@ -114,7 +123,7 @@ void insertTable(Table *table, char *key, int value) {
     table->filled++;
 }
 
-void destroyTable(Table *table) {
+static void destroyTable(Table *table) {
     int idx;
 
     for (idx = 0; idx < table->size; idx++) {

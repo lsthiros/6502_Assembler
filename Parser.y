@@ -1,10 +1,26 @@
 %{
     #include "OpCodeLookup.h"
     #include "ParserDefs.h"
+    #include "ParseTree.h"
+    #include "Parser.h"
+    #include "Lexer.h"
 
     #include <stdint.h>
     #include <stdlib.h>
     #include <string.h>
+
+    typedef struct ParseContext {
+        OpList *list;
+        unsigned int position;
+    } ParseContext;
+
+
+    void printOp(Operation *operation) {
+        printf("Name: %s\n", opNames[operation->type]);
+        if (operation->code) {
+            printf("Mode: %s\n", opNames[operation->code->mode]);
+        }
+    }
 %}
 
 %union {
@@ -38,8 +54,9 @@ statement:
         insertTable(context->table, $1, context->position);
     }
     | operation {
-        $$->position = context->position;
+        $1->position = context->position;
         context->position += opCodeLength($1->mode);
+        printOp($1);
     };
 
 operation:
@@ -47,7 +64,6 @@ operation:
         $$ = malloc(sizeof(Operation));
         $$->type = $1;
         $$->code = $2;
-        $$->nextOp = NULL;
     };
 
 address:

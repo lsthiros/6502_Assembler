@@ -14,9 +14,9 @@ const unsigned int length[] = {
     2, /* REL_ZP */
     2, /* ZP_X */
     2, /* ZP_Y */
-}
+};
 
-const char *opNames{
+const char *opNames[] = {
     "LDA",
     "LDX",
     "LDY",
@@ -87,11 +87,4 @@ const char *modeName[] = {
 
 unsigned int opCodeLength(AddressMode mode) {
     return length[mode];
-}
-
-void printOp(Operation *operation) {
-    printf("Name: %s\n", opNames[operation->type]);
-    if (operation->code) {
-        printf("Mode: %s\n", opNames[operation->code->mode]);
-    }
 }
