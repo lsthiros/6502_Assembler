@@ -74,6 +74,7 @@ statements:
 
 statement:
     LABEL_DEC {
+        printf("Lexer: Marking label location\n");
         insertLabel(context->list, $1, context->position);
     }
     | operation {
@@ -91,11 +92,13 @@ operation:
 
 address:
     NUMBER {
+        printf("Lexer: Constructing an address\n");
         $$ = malloc(sizeof(AddressLocation));
         $$->isLabel = 0;
         $$->val.literal = $1;
     }
     | LABEL {
+        printf("Lexer: Constructing an label\n");
         $$ = malloc(sizeof(AddressLocation));
         $$->isLabel = 1;
         $$->val.label = $1;
@@ -113,6 +116,7 @@ addressCode:
         $$->location = $1;
     }
     | '(' address ')' { /* Indirect Abs */
+        printf("Lexer: Constructing an Ind Abs code\n");
         $$ = malloc(sizeof(AddressCode));
         $$->mode = INDIRECT_ABS;
         $$->location = $2;

@@ -29,11 +29,15 @@
 }
 
 \$[a-fA-F0-9]{4} {
+    printf("Found long literal %s\n", yytext);
     LITERAL(0);
+    return NUMBER;
 }
 
 \$[a-fA-F0-9]{2} {
+    printf("Found short literal %s\n", yytext);
     LITERAL(1);
+    return NUMBER;
 }
 
 (?i:LDA) { yylval->op = LDA; return OPCODE;}
