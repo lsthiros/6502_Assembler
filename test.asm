@@ -1,4 +1,5 @@
 LDX #$08
+LDX $08
 decrement:
 DEX
 STX $0200

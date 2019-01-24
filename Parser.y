@@ -112,7 +112,7 @@ addressCode:
     }
     | address { /* Relative, Absolute, or Zero Page */
         $$ = malloc(sizeof(AddressCode));
-        $$->mode = (!($1->isLabel) && !($1->val.literal->isZp)) ? REL_ZP : ABSOLUTE;
+        $$->mode = (!($1->isLabel) && !($1->val.literal->isZp)) ? ABSOLUTE : REL_ZP;
         $$->location = $1;
     }
     | '(' address ')' { /* Indirect Abs */
