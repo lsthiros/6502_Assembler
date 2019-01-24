@@ -73,6 +73,6 @@ typedef enum AddressMode {
 
 unsigned int opCodeLength(AddressMode mode);
 const char *opName(OpCodeType type);
-const char *opAdressModeName(AddressMode mode);
+const char *opAddressModeName(AddressMode mode);
 
 #endif // OP_CODE_LOOKUP

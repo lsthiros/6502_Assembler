@@ -5,9 +5,9 @@
     #include <stdio.h>
 
     #define LITERAL(IS_ZP) \
-    yylval->addrLit = malloc(sizeof(LiteralAddress)); \
-    yylval->addrLit->isZp = IS_ZP; \
-    yylval->addrLit->literal = strtol(yytext + 1, NULL, 16);
+        yylval->addrLit = malloc(sizeof(LiteralAddress)); \
+        yylval->addrLit->isZp = IS_ZP; \
+        yylval->addrLit->literal = strtol(yytext + 1, NULL, 16);
     
 %}
 

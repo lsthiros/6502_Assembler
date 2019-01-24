@@ -24,6 +24,20 @@
     }
 %}
 
+%define api.pure full
+%lex-param   { yyscan_t scanner }
+%parse-param { yyscan_t scanner }
+%parse-param { ParseContext *context }
+
+%code requires {
+    #ifndef YY_TYPEDEF_YY_SCANNER_T
+    #define YY_TYPEDEF_YY_SCANNER_T
+    typedef void* yyscan_t;
+    #endif
+    int yylex();
+    int yyerror();
+}
+
 %union {
     OpCodeType op;
     char *str;
@@ -43,8 +57,6 @@
 %type <addrCode> addressCode
 %type <operation> operation
 
-%parse-param {ParseContext *context}
-
 %%
 
 statements:
@@ -52,11 +64,11 @@ statements:
 
 statement:
     LABEL_DEC {
-        insertTable(context->table, $1, context->position);
+        insertLabel(context->list, $1, context->position);
     }
     | operation {
         $1->position = context->position;
-        context->position += opCodeLength($1->mode);
+        context->position += opCodeLength($1->code->mode);
         printOp($1);
     };
 
@@ -87,7 +99,7 @@ addressCode:
     }
     | address { /* Relative, Absolute, or Zero Page */
         $$ = malloc(sizeof(AddressCode));
-        $$->mode = (!($1->isLabel) && !($1->literal->isZp)) ? REL_ZP : ABSOLUTE;
+        $$->mode = (!($1->isLabel) && !($1->val.literal->isZp)) ? REL_ZP : ABSOLUTE;
         $$->location = $1;
     }
     | '(' address ')' { /* Indirect Abs */

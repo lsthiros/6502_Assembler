@@ -91,6 +91,6 @@ unsigned int opCodeLength(AddressMode mode) {
 const char *opName(OpCodeType type) {
     return opNames[type];
 }
-const char *opAdressModeName(AddressMode mode) {
+const char *opAddressModeName(AddressMode mode) {
     return modeNames[mode];
 }
