@@ -10,7 +10,7 @@ CC_FLAGS = -g
 
 # Project variables
 EXECUTABLE_NAME = assembler
-SOURCES = main.c OpCodeDefs.c ParseTree.c Parser.c Lexer.c
+SOURCES = main.c OpCodeDefs.c ParseTree.c Parser.c Lexer.c ParserPrimitives.c
 LEXER_DEF = Lexer.l
 PARSER_DEF = Parser.y
 EXT_LIB =

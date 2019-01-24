@@ -7,14 +7,8 @@
 
     #include <stdint.h>
     #include <stdlib.h>
+    #include <stdio.h>
     #include <string.h>
-
-    void printOp(Operation *operation) {
-        printf("Name: %s\n", opName(operation->type));
-        if (operation->code) {
-            printf("Mode: %s\n", opAddressModeName(operation->code->mode));
-        }
-    }
 
     void initContext(ParseContext *context) {
         context->position = 0;
@@ -43,7 +37,6 @@
         unsigned int position;
     } ParseContext;
 
-    void printOp(Operation *operation);
     void initContext(ParseContext *context);
 }
 
@@ -80,7 +73,8 @@ statement:
     | operation {
         $1->position = context->position;
         context->position += opCodeLength($1->code->mode);
-        printOp($1);
+        printOperation($1);
+        printf("\n");
     };
 
 operation:

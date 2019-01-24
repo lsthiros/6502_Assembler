@@ -33,4 +33,9 @@ typedef struct Operation {
     unsigned int position;
 } Operation;
 
+void printLiteralAddress(LiteralAddress *literal);
+void printAddressLocation(AddressLocation *location);
+void printAddressCode(AddressCode *code);
+void printOperation(Operation *op);
+
 #endif
