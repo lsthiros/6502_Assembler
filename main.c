@@ -17,25 +17,24 @@ int main(int argc, char const *argv[])
     YY_BUFFER_STATE buf;
     FILE *source;
 
-    if (argc < 2) {
-        fprintf(stderr, "usage: assembler [filename]\n");
-        exit(1);
-    }
-
-    source = fopen(argv[1], "r");
-
-    if (!source) {
-        perror("Cound not open requested file");
-        exit(1);
-    }
+    initContext(&context);
 
     if (yylex_init(&scanner)) {
         fprintf(stderr, "Could not init scanner\n");
         exit(1);
     }
 
-    buf = yy_create_buffer(source, YY_BUF_SIZE, scanner);
-    // yy_switch_to_buffer(buf, scanner);
+    if (argc > 1) {
+        source = fopen(argv[1], "r");
+
+        if (!source) {
+            perror("Cound not open requested file");
+            exit(1);
+        }
+
+        buf = yy_create_buffer(source, YY_BUF_SIZE, scanner);
+        yy_switch_to_buffer(buf, scanner);
+    }
     if (yyparse(scanner, &context)) {
         fprintf(stderr, "Parsing error\n");
         exit(1);

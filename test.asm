@@ -1,1 +1,1 @@
-hello: AND #$04
+hello: AND ($04)

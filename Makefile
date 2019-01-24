@@ -1,26 +1,47 @@
-assembler: ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o main.o
-	gcc ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o main.o -o assembler
+# Mothafuggin colahs
+COLOR_NONE="$$(tput sgr0)"
+COLOR_GREEN="$$(tput setaf 2)"
+COLOR_YELLOW="$$(tput setaf 3)"
+COLOR_RED="$$(tput setaf 1)"
 
-main.o: main.c
-	gcc main.c -c -o main.o
+# Compiler variables
+CC = gcc
+CC_FLAGS = -g
 
-OpCodeDefs.o: OpCodeDefs.c
-	gcc OpCodeDefs.c -c -o OpCodeDefs.o
+# Project variables
+EXECUTABLE_NAME = assembler
+SOURCES = main.c OpCodeDefs.c ParseTree.c Parser.c Lexer.c
+LEXER_DEF = Lexer.l
+PARSER_DEF = Parser.y
+EXT_LIB =
 
-ParseTree.o: ParseTree.c
-	gcc ParseTree.c -c -o ParseTree.o
+# Generated variables (Don't change these)
+LIBFLAGS = $(addprefix -l, $(EXT_LIB))
+OBJECTS = $(SOURCES:.c=.o)
+OBJECT_LEXER = $(LEXER_DEF:.o=.c)
+OBJECT_PARSER= $(PARSER_DEF:.o=.c)
+GENERATED_LEXER = $(LEXER_DEF:.l=.c)
+GENERATED_PARSER = $(PARSER_DEF:.y=.c)
+GENERATED_PARSER_HEADER = $(PARSER_DEF:.y=.h)
+GENERATED_LEXER_HEADER = $(LEXER_DEF:.l=.h)
 
-Lexer.yy.o: Parser.c Lexer.yy.c
-	gcc Lexer.yy.c -c -o Lexer.yy.o
+all : $(EXECUTABLE_NAME)
 
-Lexer.yy.c: Lexer.l
-	flex -o Lexer.yy.c Lexer.l
+$(EXECUTABLE_NAME) : $(OBJECTS)
+	@echo "$(COLOR_RED)Linking $@$(COLOR_NONE)"
+	@$(CC) $(CC_FLAGS) $(OBJECTS) $(LIBFLAGS) -o $(EXECUTABLE_NAME)
 
-Parser.o: Parser.c Lexer.yy.c
-	gcc Parser.c -c -o Parser.o
+$(GENERATED_PARSER) : $(PARSER_DEF)
+	@echo "$(COLOR_YELLOW)Generating Parser$(COLOR_NONE)"
+	@bison -d -o $(GENERATED_PARSER) $(PARSER_DEF)
 
-Parser.c: Parser.y
-	bison -o Parser.c -d Parser.y
+$(GENERATED_LEXER) : $(LEXER_DEF) $(GENERATED_PARSER)
+	@echo "$(COLOR_YELLOW)Generating Lexer$(COLOR_NONE)"
+	@flex --header-file=$(LEXER_DEF:.l=.h) -o $(GENERATED_LEXER) $(LEXER_DEF) 
+
+%.o : %.c $(GENERATED_PARSER) $(GENERATED_LEXER)
+	@echo "$(COLOR_GREEN)Compiling $<$(COLOR_NONE)"
+	@$(CC) $(CC_FLAGS) -c $< -o $@
 
 clean:
-	rm -f Parser.c Parser.h Lexer.yy.c Lexer.yy.h ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o main.o
+	rm -f $(OBJECTS) $(EXECUTABLE_NAME) $(GENERATED_PARSER) $(GENERATED_PARSER_HEADER) $(GENERATED_LEXER) $(GENERATED_LEXER_HEADER)
