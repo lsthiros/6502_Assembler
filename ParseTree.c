@@ -1,5 +1,5 @@
 #include "ParseTree.h"
-#include "ParserDefs.h"
+#include "ParserPrimitives.h"
 
 #include <stdint.h>
 #include <stdlib.h>

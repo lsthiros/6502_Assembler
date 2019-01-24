@@ -1,6 +1,6 @@
 #ifndef PARSE_TREE_H
-#define PARSE_TREE
-#include "ParserDefs.h"
+#define PARSE_TREE_H
+#include "ParserPrimitives.h"
 
 typedef struct OpList OpList;
 

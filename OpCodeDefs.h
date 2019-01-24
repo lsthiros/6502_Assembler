@@ -71,6 +71,8 @@ typedef enum AddressMode {
     ZP_Y
 } AddressMode;
 
-unsigned int opCodeLength(AddressMode mode, OpCodeType type);
+unsigned int opCodeLength(AddressMode mode);
+const char *opName(OpCodeType type);
+const char *opAdressModeName(AddressMode mode);
 
 #endif // OP_CODE_LOOKUP

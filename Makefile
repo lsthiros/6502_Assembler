@@ -1,4 +1,7 @@
-all: ParseTree.o Lexer.yy.o Parser.o
+all: ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o
+
+OpCodeDefs.o: OpCodeDefs.c
+	gcc OpCodeDefs -c -o OpCodeDefs.o
 
 ParseTree.o: ParseTree.c
 	gcc ParseTree.c -c -o ParseTree.o
@@ -14,3 +17,6 @@ Parser.o: Parser.c Lexer.yy.c
 
 Parser.c: Parser.y
 	bison -o Parser.c -d Parser.y
+
+clean:
+	rm -f Parser.c Parser.h Lexer.yy.c Lexer.yy.h ParseTree.o Lexer.yy.o Parser.o OpCodeDefs.o

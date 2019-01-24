@@ -1,5 +1,4 @@
-#include "OpCodeLookup.h"
-#include "ParserDefs.h"
+#include "OpCodeDefs.h"
 
 const unsigned int length[] = {
     3, /* ABS_X */
@@ -70,7 +69,7 @@ const char *opNames[] = {
     "NOP",
     "BRK"
 };
-const char *modeName[] = {
+const char *modeNames[] = {
     "ABS_X",
     "ABS_Y",
     "ABSOLUTE",
@@ -87,4 +86,11 @@ const char *modeName[] = {
 
 unsigned int opCodeLength(AddressMode mode) {
     return length[mode];
+}
+
+const char *opName(OpCodeType type) {
+    return opNames[type];
+}
+const char *opAdressModeName(AddressMode mode) {
+    return modeNames[mode];
 }

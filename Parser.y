@@ -1,7 +1,8 @@
 %{
-    #include "OpCodeLookup.h"
-    #include "ParserDefs.h"
+    #include "OpCodeDefs.h"
+    #include "ParserPrimitives.h"
     #include "ParseTree.h"
+
     #include "Parser.h"
     #include "Lexer.h"
 
@@ -16,9 +17,9 @@
 
 
     void printOp(Operation *operation) {
-        printf("Name: %s\n", opNames[operation->type]);
+        printf("Name: %s\n", opName(operation->type));
         if (operation->code) {
-            printf("Mode: %s\n", opNames[operation->code->mode]);
+            printf("Mode: %s\n", opAddressModeName(operation->code->mode));
         }
     }
 %}

@@ -1,6 +1,6 @@
 %{
-    #include "OpCodeLookup.h"
-    #include "ParserDefs.h"
+    #include "OpCodeDefs.h"
+    #include "ParserPrimitives.h"
     #include "Parser.h"
     #include <stdio.h>
 
