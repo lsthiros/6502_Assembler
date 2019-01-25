@@ -1,254 +1,268 @@
 {
-    "LDA": {
-        "ABSOLUTE": "0xAD",
-        "ABS_X": "0xBD",
-        "ABS_Y": "0xB9",
-        "IMMEDIATE": "0xA9",
-        "REL_ZP": "0xA5",
-        "INDEX_IND": "0xA1",
-        "ZP_X": "0xB5",
-        "IND_INDEX": "0xB1"
-    },
-    "LDX": {
-        "ABSOLUTE": "0xAE",
-        "ABS_Y": "0xBE",
-        "IMMEDIATE": "0xA2",
-        "REL_ZP": "0xA6",
-        "ZP_Y": "0xB6"
-    },
-    "LDY": {
-        "ABSOLUTE": "0xAC",
-        "ABS_X": "0xBC",
-        "IMMEDIATE": "0xA0",
-        "REL_ZP": "0xA4",
-        "ZP_X": "0xB4"
-    },
-    "STA": {
-        "ABSOLUTE": "0x8D",
-        "ABS_X": "0x9D",
-        "ABS_Y": "0x99",
-        "REL_ZP": "0x85",
-        "INDEX_IND": "0x81",
-        "ZP_X": "0x95",
-        "IND_INDEX": "0x91"
-    },
-    "STX": {
-        "ABSOLUTE": "0x8E",
-        "REL_ZP": "0x86",
-        "ZP_Y": "0x96"
-    },
-    "STY": {
-        "ABSOLUTE": "0x8C",
-        "REL_ZP": "0x84",
-        "ZP_X": "0x94"
-    },
-    "ADC": {
-        "ABSOLUTE": "0x6D",
-        "ABS_X": "0x7D",
-        "ABS_Y": "0x79",
-        "IMMEDIATE": "0x69",
-        "REL_ZP": "0x65",
-        "INDEX_IND": "0x61",
-        "ZP_X": "0x75",
-        "IND_INDEX": "0x71"
-    },
-    "SBC": {
-        "ABSOLUTE": "0xED",
-        "ABS_X": "0xFD",
-        "ABS_Y": "0xF9",
-        "IMMEDIATE": "0xE9",
-        "REL_ZP": "0xE5",
-        "INDEX_IND": "0xE1",
-        "ZP_X": "0xF5",
-        "IND_INDEX": "0xF1"
-    },
-    "INC": {
-        "ABSOLUTE": "0xEE",
-        "ABS_X": "0xFE",
-        "REL_ZP": "0xE6",
-        "ZP_X": "0xF6"
-    },
-    "INX": {
-        "IMPLIED": "0xE8"
-    },
-    "INY": {
-        "IMPLIED": "0xC8"
-    },
-    "DEC": {
-        "ABSOLUTE": "0xCE",
-        "ABS_X": "0xDE",
-        "REL_ZP": "0xC6",
-        "ZP_X": "0xD6"
-    },
-    "DEX": {
-        "IMPLIED": "0xCA"
-    },
-    "DEY": {
-        "IMPLIED": "0x88"
-    },
-    "AND": {
-        "ABSOLUTE": "0x2D",
-        "ABS_X": "0x3D",
-        "ABS_Y": "0x39",
-        "IMMEDIATE": "0x29",
-        "REL_ZP": "0x25",
-        "INDEX_IND": "0x21",
-        "ZP_X": "0x35",
-        "IND_INDEX": "0x31"
-    },
-    "ORA": {
-        "ABSOLUTE": "0x0D",
-        "ABS_X": "0x1D",
-        "ABS_Y": "0x19",
-        "IMMEDIATE": "0x09",
-        "REL_ZP": "0x05",
-        "INDEX_IND": "0x01",
-        "ZP_X": "0x15",
-        "IND_INDEX": "0x11"
-    },
-    "EOR": {
-        "ABSOLUTE": "0x4D",
-        "ABS_X": "0x5D",
-        "ABS_Y": "0x59",
-        "IMMEDIATE": "0x49",
-        "REL_ZP": "0x45",
-        "INDEX_IND": "0x41",
-        "ZP_X": "0x55",
-        "IND_INDEX": "0x51"
-    },
-    "JMP": {
-        "ABSOLUTE": "0x4C",
-        "INDIRECT_ABS": "0x6C"
-    },
-    "BCC": {
-        "REL_ZP": "0x90"
-    },
-    "BCS": {
-        "REL_ZP": "0xB0"
-    },
-    "BEQ": {
-        "REL_ZP": "0xF0"
-    },
-    "BNE": {
-        "REL_ZP": "0xD0"
-    },
-    "BMI": {
-        "REL_ZP": "0x30"
-    },
-    "BPL": {
-        "REL_ZP": "0x10"
-    },
-    "BVS": {
-        "REL_ZP": "0x70"
-    },
-    "BVC": {
-        "REL_ZP": "0x50"
-    },
-    "CMP": {
-        "ABSOLUTE": "0xCD",
-        "ABS_X": "0xDD",
-        "ABS_Y": "0xD9",
-        "IMMEDIATE": "0xC9",
-        "ZP_REL": "0xC5",
-        "INDEX_IND": "0xC1",
-        "ZP_X": "0xD5",
-        "IND_INDEX": "0xD1"
-    },
-    "CPX": {
-        "ABSOLUTE": "0xEC",
-        "IMMEDIATE": "0xE0",
-        "ZP_REL": "0xE4"
-    },
-    "CPY": {
-        "ABSOLUTE": "0xCC",
-        "IMMEDIATE": "0xC0",
-        "ZP_REL": "0xC4"
-    },
-    "BIT": {
-        "ABSOLUTE": "0x2C",
-        "IMMEDIATE": "0x89",
-        "ZP_REL": "0x24"
-    },
-    "ASL": {
-        "ABSOLUTE": "0x0E",
-        "ABS_X": "0x1E",
-        "ACCUMULATOR": "0x0A",
-        "ZP_REL": "0x06",
-        "ZP_X": "0x16"
-    },
-    "LSR": {
-        "ABSOLUTE": "0x4E",
-        "ABS_X": "0x5E",
-        "ACCUMULATOR": "0x4A",
-        "ZP_REL": "0x46",
-        "ZP_X": "0x56"
-    },
-    "ROL": {
-        "ABSOLUTE": "0x2E",
-        "ABS_X": "0x3E",
-        "ACCUMULATOR": "0x2A",
-        "ZP_REL": "0x26",
-        "ZP_X": "0x36"
-    },
-    "ROR": {
-        "ABSOLUTE": "0x6E",
-        "ABS_X": "0x7E",
-        "ACCUMULATOR": "0x6A",
-        "ZP_REL": "0x66",
-        "ZP_X": "0x76"
-    },
-    "TSX": {
-        "IMPLIED": "0xBA"
-    },
-    "TXS": {
-        "IMPLIED": "0x9A"
-    },
-    "PHA": {
-        "IMPLIED": "0x48"
-    },
-    "PHP": {
-        "IMPLIED": "0x08"
-    },
-    "PLA": {
-        "IMPLIED": "0x68"
-    },
-    "PLP": {
-        "IMPLIED": "0x28"
-    },
-    "JSR": {
-        "ABSOLUTE": "0x20"
-    },
-    "RTS": {
-        "IMPLIED": "0x60"
-    },
-    "RTI": {
-        "IMPLIED": "0x40"
-    },
-    "CLC": {
-        "IMPLIED": "0x18"
-    },
-    "CLD": {
-        "IMPLIED": "0xD8"
-    },
-    "CLI": {
-        "IMPLIED": "0x58"
-    },
-    "CLV": {
-        "IMPLIED": "0xB8"
-    },
-    "SEC": {
-        "IMPLIED": "0x38"
-    },
-    "SED": {
-        "IMPLIED": "0xF8"
-    },
-    "SEI": {
-        "IMPLIED": "0x78"
-    },
-    "NOP": {
-        "IMPLIED": "0xEA"
-    },
-    "BRK": {
-        "IMPLIED": "0x00"
+    "AddressModes": [
+        "ABS_X", "ABS_Y", "ABSOLUTE", "ACCUMULATOR", "IMMEDIATE", "IMPLIED",
+        "INDEX_IND", "IND_INDEX", "INDIRECT_ABS", "REL_ZP", "ZP_X", "ZP_Y"
+    ],
+    "Ops": [
+        "LDA", "LDX", "LDY", "STA", "STX", "STY", "ADC", "SBC", "INC", "INX",
+        "INY", "DEC", "DEX", "DEY", "AND", "ORA", "EOR", "JMP", "BCC", "BCS",
+        "BEQ", "BNE", "BMI", "BPL", "BVS", "BVC", "CMP", "CPX", "CPY", "BIT",
+        "ASL", "LSR", "ROL", "ROR", "TSX", "TXS", "PHA", "PHP", "PLA", "PLP",
+        "JSR", "RTS", "RTI", "CLC", "CLD", "CLI", "CLV", "SEC", "SED", "SEI",
+        "NOP", "BRK"
+    ],
+    "OpTable": {
+        "LDA": {
+            "ABSOLUTE": "0xAD",
+            "ABS_X": "0xBD",
+            "ABS_Y": "0xB9",
+            "IMMEDIATE": "0xA9",
+            "REL_ZP": "0xA5",
+            "INDEX_IND": "0xA1",
+            "ZP_X": "0xB5",
+            "IND_INDEX": "0xB1"
+        },
+        "LDX": {
+            "ABSOLUTE": "0xAE",
+            "ABS_Y": "0xBE",
+            "IMMEDIATE": "0xA2",
+            "REL_ZP": "0xA6",
+            "ZP_Y": "0xB6"
+        },
+        "LDY": {
+            "ABSOLUTE": "0xAC",
+            "ABS_X": "0xBC",
+            "IMMEDIATE": "0xA0",
+            "REL_ZP": "0xA4",
+            "ZP_X": "0xB4"
+        },
+        "STA": {
+            "ABSOLUTE": "0x8D",
+            "ABS_X": "0x9D",
+            "ABS_Y": "0x99",
+            "REL_ZP": "0x85",
+            "INDEX_IND": "0x81",
+            "ZP_X": "0x95",
+            "IND_INDEX": "0x91"
+        },
+        "STX": {
+            "ABSOLUTE": "0x8E",
+            "REL_ZP": "0x86",
+            "ZP_Y": "0x96"
+        },
+        "STY": {
+            "ABSOLUTE": "0x8C",
+            "REL_ZP": "0x84",
+            "ZP_X": "0x94"
+        },
+        "ADC": {
+            "ABSOLUTE": "0x6D",
+            "ABS_X": "0x7D",
+            "ABS_Y": "0x79",
+            "IMMEDIATE": "0x69",
+            "REL_ZP": "0x65",
+            "INDEX_IND": "0x61",
+            "ZP_X": "0x75",
+            "IND_INDEX": "0x71"
+        },
+        "SBC": {
+            "ABSOLUTE": "0xED",
+            "ABS_X": "0xFD",
+            "ABS_Y": "0xF9",
+            "IMMEDIATE": "0xE9",
+            "REL_ZP": "0xE5",
+            "INDEX_IND": "0xE1",
+            "ZP_X": "0xF5",
+            "IND_INDEX": "0xF1"
+        },
+        "INC": {
+            "ABSOLUTE": "0xEE",
+            "ABS_X": "0xFE",
+            "REL_ZP": "0xE6",
+            "ZP_X": "0xF6"
+        },
+        "INX": {
+            "IMPLIED": "0xE8"
+        },
+        "INY": {
+            "IMPLIED": "0xC8"
+        },
+        "DEC": {
+            "ABSOLUTE": "0xCE",
+            "ABS_X": "0xDE",
+            "REL_ZP": "0xC6",
+            "ZP_X": "0xD6"
+        },
+        "DEX": {
+            "IMPLIED": "0xCA"
+        },
+        "DEY": {
+            "IMPLIED": "0x88"
+        },
+        "AND": {
+            "ABSOLUTE": "0x2D",
+            "ABS_X": "0x3D",
+            "ABS_Y": "0x39",
+            "IMMEDIATE": "0x29",
+            "REL_ZP": "0x25",
+            "INDEX_IND": "0x21",
+            "ZP_X": "0x35",
+            "IND_INDEX": "0x31"
+        },
+        "ORA": {
+            "ABSOLUTE": "0x0D",
+            "ABS_X": "0x1D",
+            "ABS_Y": "0x19",
+            "IMMEDIATE": "0x09",
+            "REL_ZP": "0x05",
+            "INDEX_IND": "0x01",
+            "ZP_X": "0x15",
+            "IND_INDEX": "0x11"
+        },
+        "EOR": {
+            "ABSOLUTE": "0x4D",
+            "ABS_X": "0x5D",
+            "ABS_Y": "0x59",
+            "IMMEDIATE": "0x49",
+            "REL_ZP": "0x45",
+            "INDEX_IND": "0x41",
+            "ZP_X": "0x55",
+            "IND_INDEX": "0x51"
+        },
+        "JMP": {
+            "ABSOLUTE": "0x4C",
+            "INDIRECT_ABS": "0x6C"
+        },
+        "BCC": {
+            "REL_ZP": "0x90"
+        },
+        "BCS": {
+            "REL_ZP": "0xB0"
+        },
+        "BEQ": {
+            "REL_ZP": "0xF0"
+        },
+        "BNE": {
+            "REL_ZP": "0xD0"
+        },
+        "BMI": {
+            "REL_ZP": "0x30"
+        },
+        "BPL": {
+            "REL_ZP": "0x10"
+        },
+        "BVS": {
+            "REL_ZP": "0x70"
+        },
+        "BVC": {
+            "REL_ZP": "0x50"
+        },
+        "CMP": {
+            "ABSOLUTE": "0xCD",
+            "ABS_X": "0xDD",
+            "ABS_Y": "0xD9",
+            "IMMEDIATE": "0xC9",
+            "REL_ZP": "0xC5",
+            "INDEX_IND": "0xC1",
+            "ZP_X": "0xD5",
+            "IND_INDEX": "0xD1"
+        },
+        "CPX": {
+            "ABSOLUTE": "0xEC",
+            "IMMEDIATE": "0xE0",
+            "REL_ZP": "0xE4"
+        },
+        "CPY": {
+            "ABSOLUTE": "0xCC",
+            "IMMEDIATE": "0xC0",
+            "REL_ZP": "0xC4"
+        },
+        "BIT": {
+            "ABSOLUTE": "0x2C",
+            "IMMEDIATE": "0x89",
+            "REL_ZP": "0x24"
+        },
+        "ASL": {
+            "ABSOLUTE": "0x0E",
+            "ABS_X": "0x1E",
+            "ACCUMULATOR": "0x0A",
+            "REL_ZP": "0x06",
+            "ZP_X": "0x16"
+        },
+        "LSR": {
+            "ABSOLUTE": "0x4E",
+            "ABS_X": "0x5E",
+            "ACCUMULATOR": "0x4A",
+            "REL_ZP": "0x46",
+            "ZP_X": "0x56"
+        },
+        "ROL": {
+            "ABSOLUTE": "0x2E",
+            "ABS_X": "0x3E",
+            "ACCUMULATOR": "0x2A",
+            "REL_ZP": "0x26",
+            "ZP_X": "0x36"
+        },
+        "ROR": {
+            "ABSOLUTE": "0x6E",
+            "ABS_X": "0x7E",
+            "ACCUMULATOR": "0x6A",
+            "REL_ZP": "0x66",
+            "ZP_X": "0x76"
+        },
+        "TSX": {
+            "IMPLIED": "0xBA"
+        },
+        "TXS": {
+            "IMPLIED": "0x9A"
+        },
+        "PHA": {
+            "IMPLIED": "0x48"
+        },
+        "PHP": {
+            "IMPLIED": "0x08"
+        },
+        "PLA": {
+            "IMPLIED": "0x68"
+        },
+        "PLP": {
+            "IMPLIED": "0x28"
+        },
+        "JSR": {
+            "ABSOLUTE": "0x20"
+        },
+        "RTS": {
+            "IMPLIED": "0x60"
+        },
+        "RTI": {
+            "IMPLIED": "0x40"
+        },
+        "CLC": {
+            "IMPLIED": "0x18"
+        },
+        "CLD": {
+            "IMPLIED": "0xD8"
+        },
+        "CLI": {
+            "IMPLIED": "0x58"
+        },
+        "CLV": {
+            "IMPLIED": "0xB8"
+        },
+        "SEC": {
+            "IMPLIED": "0x38"
+        },
+        "SED": {
+            "IMPLIED": "0xF8"
+        },
+        "SEI": {
+            "IMPLIED": "0x78"
+        },
+        "NOP": {
+            "IMPLIED": "0xEA"
+        },
+        "BRK": {
+            "IMPLIED": "0x00"
+        }
     }
 }
