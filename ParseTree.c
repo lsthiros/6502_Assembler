@@ -26,6 +26,7 @@ typedef struct OpList {
     OpNode *head;
     OpNode *tail;
     Table *table;
+    OpNode *iterator;
 } OpList;
 
 static Table *initTable();
@@ -42,6 +43,21 @@ OpList *initOpList() {
     list->table = initTable();
 
     return list;
+}
+
+void beginIteration(OpList *list) {
+    list->iterator = list->head->next;
+}
+
+Operation *iterateOpList(OpList *list) {
+    Operation *ret;
+    if (list->iterator) {
+        ret = list->iterator->op;
+        list->iterator = list->iterator->next;
+    } else {
+        ret = NULL;
+    }
+    return ret;
 }
 
 void addOperation(OpList *list, Operation *op) {
