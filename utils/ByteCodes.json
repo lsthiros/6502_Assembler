@@ -132,34 +132,123 @@
     "BNE": {
         "REL_ZP": "0xD0"
     },
-    "BMI": {},
-    "BPL": {},
-    "BVS": {},
-    "BVC": {},
-    "CMP": {},
-    "CPX": {},
-    "CPY": {},
-    "BIT": {},
-    "ASL": {},
-    "LSR": {},
-    "ROL": {},
-    "ROR": {},
-    "TSX": {},
-    "TXS": {},
-    "PHA": {},
-    "PHP": {},
-    "PLA": {},
-    "PLP": {},
-    "JSR": {},
-    "RTS": {},
-    "RTI": {},
-    "CLC": {},
-    "CLD": {},
-    "CLI": {},
-    "CLV": {},
-    "SEC": {},
-    "SED": {},
-    "SEI": {},
-    "NOP": {},
-    "BRK": {}
+    "BMI": {
+        "REL_ZP": "0x30"
+    },
+    "BPL": {
+        "REL_ZP": "0x10"
+    },
+    "BVS": {
+        "REL_ZP": "0x70"
+    },
+    "BVC": {
+        "REL_ZP": "0x50"
+    },
+    "CMP": {
+        "ABSOLUTE": "0xCD",
+        "ABS_X": "0xDD",
+        "ABS_Y": "0xD9",
+        "IMMEDIATE": "0xC9",
+        "ZP_REL": "0xC5",
+        "INDEX_IND": "0xC1",
+        "ZP_X": "0xD5",
+        "IND_INDEX": "0xD1"
+    },
+    "CPX": {
+        "ABSOLUTE": "0xEC",
+        "IMMEDIATE": "0xE0",
+        "ZP_REL": "0xE4"
+    },
+    "CPY": {
+        "ABSOLUTE": "0xCC",
+        "IMMEDIATE": "0xC0",
+        "ZP_REL": "0xC4"
+    },
+    "BIT": {
+        "ABSOLUTE": "0x2C",
+        "IMMEDIATE": "0x89",
+        "ZP_REL": "0x24"
+    },
+    "ASL": {
+        "ABSOLUTE": "0x0E",
+        "ABS_X": "0x1E",
+        "ACCUMULATOR": "0x0A",
+        "ZP_REL": "0x06",
+        "ZP_X": "0x16"
+    },
+    "LSR": {
+        "ABSOLUTE": "0x4E",
+        "ABS_X": "0x5E",
+        "ACCUMULATOR": "0x4A",
+        "ZP_REL": "0x46",
+        "ZP_X": "0x56"
+    },
+    "ROL": {
+        "ABSOLUTE": "0x2E",
+        "ABS_X": "0x3E",
+        "ACCUMULATOR": "0x2A",
+        "ZP_REL": "0x26",
+        "ZP_X": "0x36"
+    },
+    "ROR": {
+        "ABSOLUTE": "0x6E",
+        "ABS_X": "0x7E",
+        "ACCUMULATOR": "0x6A",
+        "ZP_REL": "0x66",
+        "ZP_X": "0x76"
+    },
+    "TSX": {
+        "IMPLIED": "0xBA"
+    },
+    "TXS": {
+        "IMPLIED": "0x9A"
+    },
+    "PHA": {
+        "IMPLIED": "0x48"
+    },
+    "PHP": {
+        "IMPLIED": "0x08"
+    },
+    "PLA": {
+        "IMPLIED": "0x68"
+    },
+    "PLP": {
+        "IMPLIED": "0x28"
+    },
+    "JSR": {
+        "ABSOLUTE": "0x20"
+    },
+    "RTS": {
+        "IMPLIED": "0x60"
+    },
+    "RTI": {
+        "IMPLIED": "0x40"
+    },
+    "CLC": {
+        "IMPLIED": "0x18"
+    },
+    "CLD": {
+        "IMPLIED": "0xD8"
+    },
+    "CLI": {
+        "IMPLIED": "0x58"
+    },
+    "CLV": {
+        "IMPLIED": "0xB8"
+    },
+    "SEC": {
+        "IMPLIED": "0x38"
+    },
+    "SED": {
+        "IMPLIED": "0xF8"
+    },
+    "SEI": {
+        "IMPLIED": "0x78"
+    },
+    "NOP": {
+        "IMPLIED": "0xEA"
+    },
+    "BRK": {
+        "IMPLIED": "0x00"
+    }
 }
