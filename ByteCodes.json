@@ -1,0 +1,165 @@
+{
+    "LDA": {
+        "ABSOLUTE": "0xAD",
+        "ABS_X": "0xBD",
+        "ABS_Y": "0xB9",
+        "IMMEDIATE": "0xA9",
+        "REL_ZP": "0xA5",
+        "INDEX_IND": "0xA1",
+        "ZP_X": "0xB5",
+        "IND_INDEX": "0xB1"
+    },
+    "LDX": {
+        "ABSOLUTE": "0xAE",
+        "ABS_Y": "0xBE",
+        "IMMEDIATE": "0xA2",
+        "REL_ZP": "0xA6",
+        "ZP_Y": "0xB6"
+    },
+    "LDY": {
+        "ABSOLUTE": "0xAC",
+        "ABS_X": "0xBC",
+        "IMMEDIATE": "0xA0",
+        "REL_ZP": "0xA4",
+        "ZP_X": "0xB4"
+    },
+    "STA": {
+        "ABSOLUTE": "0x8D",
+        "ABS_X": "0x9D",
+        "ABS_Y": "0x99",
+        "REL_ZP": "0x85",
+        "INDEX_IND": "0x81",
+        "ZP_X": "0x95",
+        "IND_INDEX": "0x91"
+    },
+    "STX": {
+        "ABSOLUTE": "0x8E",
+        "REL_ZP": "0x86",
+        "ZP_Y": "0x96"
+    },
+    "STY": {
+        "ABSOLUTE": "0x8C",
+        "REL_ZP": "0x84",
+        "ZP_X": "0x94"
+    },
+    "ADC": {
+        "ABSOLUTE": "0x6D",
+        "ABS_X": "0x7D",
+        "ABS_Y": "0x79",
+        "IMMEDIATE": "0x69",
+        "REL_ZP": "0x65",
+        "INDEX_IND": "0x61",
+        "ZP_X": "0x75",
+        "IND_INDEX": "0x71"
+    },
+    "SBC": {
+        "ABSOLUTE": "0xED",
+        "ABS_X": "0xFD",
+        "ABS_Y": "0xF9",
+        "IMMEDIATE": "0xE9",
+        "REL_ZP": "0xE5",
+        "INDEX_IND": "0xE1",
+        "ZP_X": "0xF5",
+        "IND_INDEX": "0xF1"
+    },
+    "INC": {
+        "ABSOLUTE": "0xEE",
+        "ABS_X": "0xFE",
+        "REL_ZP": "0xE6",
+        "ZP_X": "0xF6"
+    },
+    "INX": {
+        "IMPLIED": "0xE8"
+    },
+    "INY": {
+        "IMPLIED": "0xC8"
+    },
+    "DEC": {
+        "ABSOLUTE": "0xCE",
+        "ABS_X": "0xDE",
+        "REL_ZP": "0xC6",
+        "ZP_X": "0xD6"
+    },
+    "DEX": {
+        "IMPLIED": "0xCA"
+    },
+    "DEY": {
+        "IMPLIED": "0x88"
+    },
+    "AND": {
+        "ABSOLUTE": "0x2D",
+        "ABS_X": "0x3D",
+        "ABS_Y": "0x39",
+        "IMMEDIATE": "0x29",
+        "REL_ZP": "0x25",
+        "INDEX_IND": "0x21",
+        "ZP_X": "0x35",
+        "IND_INDEX": "0x31"
+    },
+    "ORA": {
+        "ABSOLUTE": "0x0D",
+        "ABS_X": "0x1D",
+        "ABS_Y": "0x19",
+        "IMMEDIATE": "0x09",
+        "REL_ZP": "0x05",
+        "INDEX_IND": "0x01",
+        "ZP_X": "0x15",
+        "IND_INDEX": "0x11"
+    },
+    "EOR": {
+        "ABSOLUTE": "0x4D",
+        "ABS_X": "0x5D",
+        "ABS_Y": "0x59",
+        "IMMEDIATE": "0x49",
+        "REL_ZP": "0x45",
+        "INDEX_IND": "0x41",
+        "ZP_X": "0x55",
+        "IND_INDEX": "0x51"
+    },
+    "JMP": {
+        "ABSOLUTE": "0x4C",
+        "INDIRECT_ABS": "0x6C"
+    },
+    "BCC": {
+        "REL_ZP": "0x90"
+    },
+    "BCS": {
+        "REL_ZP": "0xB0"
+    },
+    "BEQ": {
+        "REL_ZP": "0xF0"
+    },
+    "BNE": {
+        "REL_ZP": "0xD0"
+    },
+    "BMI": {},
+    "BPL": {},
+    "BVS": {},
+    "BVC": {},
+    "CMP": {},
+    "CPX": {},
+    "CPY": {},
+    "BIT": {},
+    "ASL": {},
+    "LSR": {},
+    "ROL": {},
+    "ROR": {},
+    "TSX": {},
+    "TXS": {},
+    "PHA": {},
+    "PHP": {},
+    "PLA": {},
+    "PLP": {},
+    "JSR": {},
+    "RTS": {},
+    "RTI": {},
+    "CLC": {},
+    "CLD": {},
+    "CLI": {},
+    "CLV": {},
+    "SEC": {},
+    "SED": {},
+    "SEI": {},
+    "NOP": {},
+    "BRK": {}
+}
