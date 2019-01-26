@@ -1,0 +1,11 @@
+const uint8_t opLookupTable[{{num_ops}}][{{num_modes}}] = {
+    {%- for op in op_list %}
+    /* {{op.name}} */
+    {
+        {%- for mode in op.modes %}
+        {{mode.bytecode}}
+        {%- if not mode.last %},{% else %} {% endif %} {% if not mode.valid %}   {% endif %}/* {{mode.type}}{% if not mode.valid %} not valid{% endif %} */
+        {%- endfor %}
+    }{% if not op.last %},{%endif%}
+    {%- endfor %}
+}
