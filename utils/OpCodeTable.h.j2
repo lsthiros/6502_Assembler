@@ -1,3 +1,8 @@
+#ifndef OP_CODE_TABLE_H
+#define OP_CODE_TABLE_H
+
+#include <stdint.h>
+
 const uint8_t opLookupTable[{{num_ops}}][{{num_modes}}] = {
     {%- for op in op_list %}
     /* {{op.name}} */
@@ -8,4 +13,6 @@ const uint8_t opLookupTable[{{num_ops}}][{{num_modes}}] = {
         {%- endfor %}
     }{% if not op.last %},{%endif%}
     {%- endfor %}
-}
+};
+
+#endif

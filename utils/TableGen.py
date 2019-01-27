@@ -38,11 +38,11 @@ def main():
         op_item['modes'] = op_mode_list
         op_set.append(op_item)
     
-    with open('OpCodeTable.c.j2') as f:
+    with open('OpCodeTable.h.j2') as f:
         template = Template(f.read())
     final = template.render(op_list=op_set, num_ops=num_ops, num_modes=num_modes)
 
-    with open('OpCodeTable.c', 'w') as f:
+    with open('OpCodeTable.h', 'w') as f:
         f.write(final)
 
 if __name__ == "__main__":
