@@ -4,3 +4,4 @@ Parser.h
 Parser.c
 *.o
 assembler
+utils/OpCodeTable.h

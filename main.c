@@ -1,5 +1,6 @@
 #include "Parser.h"
 #include "Lexer.h"
+#include "Emitter.h"
 
 #include "ParseTree.h"
 
@@ -13,6 +14,7 @@ int yyerror(yyscan_t scanner, const char *msg) {
 int main(int argc, char const *argv[])
 {
     ParseContext context;
+    Program *prog;
     yyscan_t scanner;
     YY_BUFFER_STATE buf;
     FILE *source;
@@ -40,6 +42,7 @@ int main(int argc, char const *argv[])
         exit(1);
     }
 
+    emitProgram(context.list, NULL);
     yy_delete_buffer(buf, scanner);
     yylex_destroy(scanner);
     return 0;

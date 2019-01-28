@@ -75,6 +75,7 @@ statement:
         context->position += opCodeLength($1->code->mode);
         printOperation($1);
         printf("\n");
+        addOperation(context->list, $1);
     };
 
 operation:

@@ -17,4 +17,5 @@ typedef struct ByteCode {
 } ByteCode;
 
 int emitProgram(OpList *list, Program **ret);
+void printByteCode(ByteCode *code);
 #endif

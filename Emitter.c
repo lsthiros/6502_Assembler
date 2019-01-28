@@ -15,22 +15,46 @@ typedef struct Program {
     ByteCodeNode *tail;
 } Program;
 
-int emitProgram(OpList *list, Program **ret);
+static int generateInstruction(Operation *op, OpList *list, ByteCode **ret);
+static int getCode(OpCodeType type, AddressMode mode, uint8_t *ret);
+static int isRelative(OpCodeType type);
+
+void printByteCode(ByteCode *code) {
+    int idx;
+
+    printf("ByteCode\n");
+    printf("location: %4.4X\n", code->location);
+    printf("type: %s\n", opName(code->type));
+    printf("jumpLocation: %4.4X\n", code->jumpLocation);
+    printf("jumpLabel: %s\n", code->jumpLabel ? code->jumpLabel : "N/A");
+    printf("length: %u\n", code->length);
+    printf("code:");
+
+    for (idx = 0; idx < code->length; idx++) {
+        printf(" %2.2X", code->code[idx]);
+    }
+    printf("\n");
+}
 
 int emitProgram(OpList *list, Program **ret) {
     Operation *op;
+    ByteCode *codeToEmit;
     int error = 0;
 
     beginIteration(list);
     op = iterateOpList(list);
 
+    fprintf(stderr, "Iterating through oplist\n");
     while (op && !error) {
-        error = generateInstruction(op, list);
-        op = iterateOpList(list);
+        fprintf(stderr, "Iterating through oplist\n");
+        if (!(error = generateInstruction(op, list, &codeToEmit))) {
+            printByteCode(codeToEmit);
+            op = iterateOpList(list);
+        }
     }
 }
 
-static int generateInstruction(Operation *op, OpList *list) {
+static int generateInstruction(Operation *op, OpList *list, ByteCode **ret) {
     ByteCode *codeToEmit;
     AddressMode addressMode;
     uint8_t opByte, status;
@@ -100,6 +124,8 @@ static int generateInstruction(Operation *op, OpList *list) {
     /* Implied: nothing after the op */
 
     codeToEmit->length = opCodeLength(addressMode);
+    *ret = codeToEmit;
+    return 0;
 }
 
 static int getCode(OpCodeType type, AddressMode mode, uint8_t *ret) {
@@ -117,10 +143,12 @@ static const OpCodeType relTypes[] = {
     BCC, BCS, BEQ, BMI, BNE, BPL, BVC, BVS
 };
 
+static const int numRels = 8;
+
 static int isRelative(OpCodeType type) {
     int idx = 0;
 
-    while(idx < 8 && type != relTypes[idx])
+    while(idx < numRels && type != relTypes[idx])
         idx++;
 
     return type == relTypes[idx];
