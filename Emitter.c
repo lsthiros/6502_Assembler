@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 
 typedef struct ByteCodeNode {
@@ -46,9 +47,9 @@ int emitProgram(OpList *list, Program **ret) {
 
     fprintf(stderr, "Iterating through oplist\n");
     while (op && !error) {
-        fprintf(stderr, "Iterating through oplist\n");
         if (!(error = generateInstruction(op, list, &codeToEmit))) {
             printByteCode(codeToEmit);
+            printf("\n");
             op = iterateOpList(list);
         }
     }
@@ -62,6 +63,7 @@ static int generateInstruction(Operation *op, OpList *list, ByteCode **ret) {
     unsigned int fullAddress;
 
     codeToEmit = malloc(sizeof(ByteCode));
+    codeToEmit->location = op->position;
     codeToEmit->type = op->type;
     addressMode = op->code->mode;
 
@@ -81,18 +83,23 @@ static int generateInstruction(Operation *op, OpList *list, ByteCode **ret) {
         if (op->code->location->isLabel) {
             status = searchLabels(list, op->code->location->val.label, &fullAddress);
             assert(status);
+            codeToEmit->jumpLabel = strdup(op->code->location->val.label);
         } else {
             fullAddress = op->code->location->val.literal->literal;
         }
-        codeToEmit->code[1] = (uint8_t)((fullAddress & 0xFF00) >> 8);
-        codeToEmit->code[2] = (uint8_t)(fullAddress & 0xFF);
+        codeToEmit->jumpLocation = fullAddress;
+        codeToEmit->code[1] = (uint8_t)(fullAddress & 0xFF);
+        codeToEmit->code[2] = (uint8_t)((fullAddress & 0xFF00) >> 8);
     }
     /* Relative: REL_ZP && isRelative. if its a label, calculate that, otherwise use the value */
     else if (addressMode == REL_ZP && isRelative(op->type)) {
         /* TODO remove assert. Error needs to be handled */
         if (op->code->location->isLabel) {
             status = searchLabels(list, op->code->location->val.label, &fullAddress);
-            offset = (int8_t)(fullAddress - op->position);
+            assert(status);
+            codeToEmit->jumpLabel = strdup(op->code->location->val.label);
+            codeToEmit->jumpLocation = fullAddress;
+            offset = (int8_t)(fullAddress - (op->position + opCodeLength(addressMode)));
         }
         else {
             offset = op->code->location->val.literal->literal;

@@ -83,6 +83,10 @@ operation:
         $$ = malloc(sizeof(Operation));
         $$->type = $1;
         $$->code = $2;
+
+        if ($1 == JMP && $2->mode == REL_ZP && $2->location->isLabel) {
+            $2->mode = ABSOLUTE;
+        }
     };
 
 address:
