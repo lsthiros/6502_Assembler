@@ -17,8 +17,10 @@ int writeHexFile(HexWriter *writer, Program *prog) {
     while ((code = iterateProgram(prog))) {
         for (idx = 0; idx < code->length; idx++) {
             writer->data[writer->dataSize++] = code->code[idx];
-            if (writer->dataSize == 16)
+            if (writer->dataSize == 16) {
                 writeRecord(writer);
+                writer->dataSize = 0;
+            }
         }
     }
 
@@ -29,20 +31,38 @@ static const charLookup[] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
 };
-#define PUT_HEX(BUFFER, OFFSET, BYTE) \
-    BUFFER[OFFSET] = charLookup[BYTE & 0x0F]; \
-    BUFFER[OFFSET + 1] = charLookup[(BYTE >> 4) & 0x0F];
+
+static void putHex(uint8_t *buffer, unsigned int offset, uint8_t byte) {
+    buffer[offset] = charLookup[byte & 0x0F];
+    buffer[offset + 1] = charLookup[(byte >> 4) & 0x0F];
+}
 
 static const uint8_t DataRecord = 0x00;
 
 static void writeRecord(HexWriter *writer) {
     int recordLength = 1 + 2 + 4 + 2 + (writer->dataSize * 2) + 2 + 1;
+    int idx;
     char *record = malloc(recordLength + 1);
     uint8_t checksum = 0;
 
     record[0] = ':';
-    PUT_HEX(record, 1, writer->dataSize);
-    PUT_HEX(record, 3, ((writer->address & 0xFF00) >> 8));
-    PUT_HEX(record, 5, (writer->address & 0x00FF));
-    PUT_HEX(record, 7, DataRecord);
+    putHex(record, 1, writer->dataSize);
+    putHex(record, 3, ((writer->address & 0xFF00) >> 8));
+    putHex(record, 5, (writer->address & 0x00FF));
+    putHex(record, 7, DataRecord);
+
+    checksum += writer->dataSize + ((writer->address & 0xFF00) >> 8) +
+        (writer->address & 0x00FF) + DataRecord;
+
+    for (idx = 0; idx < writer->dataSize; idx++) {
+        putHex(record, 9 + (idx * 2), writer->data[idx]);
+        checksum += writer->data[idx];
+    }
+    checksum = (~checksum + 1);
+
+    putHex(record, recordLength - 3, checksum);
+    record[recordLength - 1] = '\n';
+    record[recordLength] = '\0';
+    printf(record);
+    free(record);
 }
