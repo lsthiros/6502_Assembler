@@ -84,7 +84,9 @@ operation:
         $$->type = $1;
         $$->code = $2;
 
-        if ($1 == JMP && $2->mode == REL_ZP && $2->location->isLabel) {
+        if (($1 == JMP || $1 == JSR)
+            && $2->mode == REL_ZP && $2->location->isLabel) {
+
             $2->mode = ABSOLUTE;
         }
     };

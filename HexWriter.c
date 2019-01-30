@@ -24,19 +24,24 @@ int writeHexFile(HexWriter *writer, LinkedList *prog) {
 
     initLinkedListIterator(&iterator, prog);
 
-    writer->recordType = 0x00;
+    writer->recordType = DataRecord;
     writer->address = 0;
     while ((linkedListIteratorNext(&iterator, (void**)&code))) {
         for (idx = 0; idx < code->length; idx++) {
             writer->data[writer->dataSize++] = code->code[idx];
             if (writer->dataSize == 16) {
                 writeRecord(writer);
+                writer->address += writer->dataSize;
                 writer->dataSize = 0;
             }
         }
     }
     writeRecord(writer);
 
+    writer->recordType = 0x01;
+    writer->address = 0;
+    writer->dataSize = 0;
+    writeRecord(writer);
     return 0;
 }
 
@@ -56,10 +61,10 @@ static void writeRecord(HexWriter *writer) {
     putHex(record, 1, writer->dataSize);
     putHex(record, 3, ((writer->address & 0xFF00) >> 8));
     putHex(record, 5, (writer->address & 0x00FF));
-    putHex(record, 7, DataRecord);
+    putHex(record, 7, writer->recordType);
 
     checksum += writer->dataSize + ((writer->address & 0xFF00) >> 8) +
-        (writer->address & 0x00FF) + DataRecord;
+        (writer->address & 0x00FF) + writer->recordType;
 
     for (idx = 0; idx < writer->dataSize; idx++) {
         putHex(record, 9 + (idx * 2), writer->data[idx]);
