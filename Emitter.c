@@ -35,22 +35,23 @@ int emitProgram(OpList *list, LinkedList *program) {
     int status;
 
     initLinkedListIterator(&iterator, getOpListOps(list));
-    status = linkedListIteratorNext(&iterator, &op);
+    status = linkedListIteratorNext(&iterator, (void**)&op);
 
     while (status && !error) {
         if (!(error = generateInstruction(op, list, &codeToEmit))) {
             printByteCode(codeToEmit);
             printf("\n");
-            status = linkedListIteratorNext(&iterator, &op);
+            status = linkedListIteratorNext(&iterator, (void**)&op);
             linkedListInsert(program, codeToEmit);
         }
     }
+    return status;
 }
 
 static int generateInstruction(Operation *op, OpList *list, ByteCode **ret) {
     ByteCode *codeToEmit;
     AddressMode addressMode;
-    uint8_t opByte, status;
+    uint8_t status;
     int8_t offset;
     unsigned int fullAddress;
 

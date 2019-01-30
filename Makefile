@@ -6,7 +6,7 @@ COLOR_RED="$$(tput setaf 1)"
 
 # Compiler variables
 CC = gcc
-CC_FLAGS = -g
+CC_FLAGS = -g -Wall -Werror
 
 # Project variables
 EXECUTABLE_NAME = assembler

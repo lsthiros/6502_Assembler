@@ -8,7 +8,7 @@
 
 typedef struct {
     char *key;
-    int value;
+    unsigned int value;
     uint8_t valid;
 } Record;
 
@@ -29,6 +29,13 @@ static void innerEntry(Record *records, unsigned int size, char *key, int value)
 static void rehash(Table *oldTable);
 static void destroyTable(Table *table);
 
+void destroyOpList(OpList *list) {
+    /* TODO: Write Destroy Operation code */
+    linkedListDestroy(&list->ops);
+    destroyTable(list->table);
+    free(list);
+}
+
 LinkedList  *getOpListOps(OpList *list) {
     return &list->ops;
 }
@@ -46,7 +53,7 @@ void addOperation(OpList *list, Operation *op) {
 }
 
 static void innerEntry(Record *records, unsigned int size, char *key, int value) {
-    unsigned long seed = sdbm(key) % size;
+    unsigned long seed = sdbm((uint8_t*)key) % size;
     Record *current = &(records[seed]);
 
     while (current->valid) {
@@ -68,9 +75,9 @@ static Table *initTable() {
     return ret;
 }
 
-uint8_t searchLabels(OpList *list, char *key, int *ret) {
+uint8_t searchLabels(OpList *list, char *key, unsigned int *ret) {
     Table *table = list->table;
-    unsigned long seed = sdbm(key) % table->size;
+    unsigned long seed = sdbm((uint8_t*)key) % table->size;
     Record *current = &(table->records[seed]);
 
     while (current->valid && strcmp(key, current->key))
@@ -103,7 +110,7 @@ static void rehash(Table *oldTable) {
     oldTable->size = newsize;
 }
 
-void insertLabel(OpList *list, char *key, int value) {
+void insertLabel(OpList *list, char *key, unsigned int value) {
     Table *table = list->table;
     char *newKey = strdup(key);
 

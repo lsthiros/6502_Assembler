@@ -4,7 +4,7 @@
 #include <string.h>
 
 static void writeRecord(HexWriter *writer);
-static void putHex(uint8_t *buffer, unsigned int offset, uint8_t byte);
+static void putHex(char *buffer, unsigned int offset, uint8_t byte);
 
 static const uint8_t DataRecord = 0x00;
 static const char charLookup[] = {
@@ -26,7 +26,7 @@ int writeHexFile(HexWriter *writer, LinkedList *prog) {
 
     writer->recordType = 0x00;
     writer->address = 0;
-    while ((linkedListIteratorNext(&iterator, &code))) {
+    while ((linkedListIteratorNext(&iterator, (void**)&code))) {
         for (idx = 0; idx < code->length; idx++) {
             writer->data[writer->dataSize++] = code->code[idx];
             if (writer->dataSize == 16) {
@@ -40,7 +40,7 @@ int writeHexFile(HexWriter *writer, LinkedList *prog) {
     return 0;
 }
 
-static void putHex(uint8_t *buffer, unsigned int offset, uint8_t byte) {
+static void putHex(char *buffer, unsigned int offset, uint8_t byte) {
     buffer[offset] = charLookup[(byte >> 4) & 0x0F];
     buffer[offset + 1] = charLookup[byte & 0x0F];
 }
@@ -70,6 +70,6 @@ static void writeRecord(HexWriter *writer) {
     putHex(record, recordLength - 3, checksum);
     record[recordLength - 1] = '\n';
     record[recordLength] = '\0';
-    printf(record);
+    printf("%s", record);
     free(record);
 }
