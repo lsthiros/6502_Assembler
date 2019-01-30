@@ -1,20 +1,32 @@
 #include "HexWriter.h"
 
-typedef struct HexWriter {
-    uint8_t recordType;
-    uint16_t address;
-    uint8_t dataSize;
-    uint8_t data[16];
-} hexWriter;
+#include <stdlib.h>
+#include <string.h>
 
-int writeHexFile(HexWriter *writer, Program *prog) {
-    beginIterateProgram(prog);
+static void writeRecord(HexWriter *writer);
+static void putHex(uint8_t *buffer, unsigned int offset, uint8_t byte);
+
+static const uint8_t DataRecord = 0x00;
+static const char charLookup[] = {
+    '0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+};
+
+
+void initHexWriter(HexWriter *writer) {
+    memset(writer, 0x00, sizeof(HexWriter));
+}
+
+int writeHexFile(HexWriter *writer, LinkedList *prog) {
+    LinkedListIterator iterator;
     ByteCode *code;
     int idx;
 
+    initLinkedListIterator(&iterator, prog);
+
     writer->recordType = 0x00;
     writer->address = 0;
-    while ((code = iterateProgram(prog))) {
+    while ((linkedListIteratorNext(&iterator, &code))) {
         for (idx = 0; idx < code->length; idx++) {
             writer->data[writer->dataSize++] = code->code[idx];
             if (writer->dataSize == 16) {
@@ -23,21 +35,16 @@ int writeHexFile(HexWriter *writer, Program *prog) {
             }
         }
     }
+    writeRecord(writer);
 
     return 0;
 }
 
-static const charLookup[] = {
-    '0', '1', '2', '3', '4', '5', '6', '7',
-    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-};
-
 static void putHex(uint8_t *buffer, unsigned int offset, uint8_t byte) {
-    buffer[offset] = charLookup[byte & 0x0F];
-    buffer[offset + 1] = charLookup[(byte >> 4) & 0x0F];
+    buffer[offset] = charLookup[(byte >> 4) & 0x0F];
+    buffer[offset + 1] = charLookup[byte & 0x0F];
 }
 
-static const uint8_t DataRecord = 0x00;
 
 static void writeRecord(HexWriter *writer) {
     int recordLength = 1 + 2 + 4 + 2 + (writer->dataSize * 2) + 2 + 1;

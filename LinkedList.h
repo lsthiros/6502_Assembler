@@ -23,6 +23,6 @@ void linkedListInsert(LinkedList *list, void *item);
 void linkedListDestroy(LinkedList *list);
 
 void initLinkedListIterator(LinkedListIterator *iterator, LinkedList *list);
-void *linkedListIteratorNext(LinkedListIterator *iterator);
+int linkedListIteratorNext(LinkedListIterator *iterator, void **data);
 
 #endif

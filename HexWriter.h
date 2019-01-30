@@ -2,12 +2,17 @@
 #define HEX_WRITER_H
 
 #include "Emitter.h"
+#include "LinkedList.h"
 #include <stdio.h>
 
-typedef struct HexWriter HexWriter;
-typedef int(*HexWriterSink)(char *);
+typedef struct HexWriter {
+    uint8_t recordType;
+    uint16_t address;
+    uint8_t dataSize;
+    uint8_t data[16];
+} HexWriter;
 
-HexWriter *initHexWriter(HexWriterSink sink);
-int writeHexFile(HexWriter *writer, Program *prog);
+void initHexWriter(HexWriter *writer);
+int writeHexFile(HexWriter *writer, LinkedList *prog);
 
 #endif

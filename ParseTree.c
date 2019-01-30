@@ -1,5 +1,6 @@
 #include "ParseTree.h"
 #include "ParserPrimitives.h"
+#include "LinkedList.h"
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -17,16 +18,9 @@ typedef struct {
     Record *records;
 } Table;
 
-typedef struct OpNode {
-    Operation *op;
-    struct OpNode *next;
-} OpNode;
-
 typedef struct OpList {
-    OpNode *head;
-    OpNode *tail;
+    LinkedList ops;
     Table *table;
-    OpNode *iterator;
 } OpList;
 
 static Table *initTable();
@@ -35,38 +29,20 @@ static void innerEntry(Record *records, unsigned int size, char *key, int value)
 static void rehash(Table *oldTable);
 static void destroyTable(Table *table);
 
+LinkedList  *getOpListOps(OpList *list) {
+    return &list->ops;
+}
+
 OpList *initOpList() {
     OpList *list = calloc(sizeof(OpList), 1);
-    OpNode *next = calloc(sizeof(OpNode), 1);
-    list->head = next;
-    list->tail = next;
+    initLinkedList(&list->ops);
     list->table = initTable();
 
     return list;
 }
 
-void beginIteration(OpList *list) {
-    list->iterator = list->head->next;
-}
-
-Operation *iterateOpList(OpList *list) {
-    Operation *ret;
-    if (list->iterator) {
-        ret = list->iterator->op;
-        list->iterator = list->iterator->next;
-    } else {
-        ret = NULL;
-    }
-    return ret;
-}
-
 void addOperation(OpList *list, Operation *op) {
-    OpNode *nextNode = malloc(sizeof(OpNode));
-    nextNode->op = op;
-    nextNode->next = NULL;
-
-    list->tail->next = nextNode;
-    list->tail = nextNode;
+    linkedListInsert(&list->ops, op);
 }
 
 static void innerEntry(Record *records, unsigned int size, char *key, int value) {

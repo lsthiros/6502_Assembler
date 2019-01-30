@@ -1,8 +1,10 @@
 #include "Parser.h"
 #include "Lexer.h"
 #include "Emitter.h"
+#include "LinkedList.h"
 
 #include "ParseTree.h"
+#include "HexWriter.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,12 +16,14 @@ int yyerror(yyscan_t scanner, const char *msg) {
 int main(int argc, char const *argv[])
 {
     ParseContext context;
-    Program *prog;
+    LinkedList prog;
+    HexWriter writer;
     yyscan_t scanner;
     YY_BUFFER_STATE buf;
     FILE *source;
 
     initContext(&context);
+    initLinkedList(&prog);
 
     if (yylex_init(&scanner)) {
         fprintf(stderr, "Could not init scanner\n");
@@ -42,7 +46,9 @@ int main(int argc, char const *argv[])
         exit(1);
     }
 
-    emitProgram(context.list, NULL);
+    emitProgram(context.list, &prog);
+    initHexWriter(&writer);
+    writeHexFile(&writer, &prog);
     yy_delete_buffer(buf, scanner);
     yylex_destroy(scanner);
     return 0;

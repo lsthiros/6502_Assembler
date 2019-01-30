@@ -6,16 +6,6 @@
 #include <string.h>
 #include <assert.h>
 
-typedef struct ByteCodeNode {
-    ByteCode *code;
-    struct ByteCodeNode *next;
-} ByteCodeNode;
-
-typedef struct Program {
-    ByteCodeNode *head;
-    ByteCodeNode *tail;
-} Program;
-
 static int generateInstruction(Operation *op, OpList *list, ByteCode **ret);
 static int getCode(OpCodeType type, AddressMode mode, uint8_t *ret);
 static int isRelative(OpCodeType type);
@@ -37,20 +27,22 @@ void printByteCode(ByteCode *code) {
     printf("\n");
 }
 
-int emitProgram(OpList *list, Program **ret) {
+int emitProgram(OpList *list, LinkedList *program) {
     Operation *op;
     ByteCode *codeToEmit;
+    LinkedListIterator iterator;
     int error = 0;
+    int status;
 
-    beginIteration(list);
-    op = iterateOpList(list);
+    initLinkedListIterator(&iterator, getOpListOps(list));
+    status = linkedListIteratorNext(&iterator, &op);
 
-    fprintf(stderr, "Iterating through oplist\n");
-    while (op && !error) {
+    while (status && !error) {
         if (!(error = generateInstruction(op, list, &codeToEmit))) {
             printByteCode(codeToEmit);
             printf("\n");
-            op = iterateOpList(list);
+            status = linkedListIteratorNext(&iterator, &op);
+            linkedListInsert(program, codeToEmit);
         }
     }
 }

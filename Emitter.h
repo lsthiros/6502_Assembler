@@ -3,9 +3,9 @@
 
 #include "OpCodeDefs.h"
 #include "ParseTree.h"
-#include <stdint.h>
+#include "LinkedList.h"
 
-typedef struct Program Program;
+#include <stdint.h>
 
 typedef struct ByteCode {
     unsigned int location;
@@ -16,9 +16,7 @@ typedef struct ByteCode {
     uint8_t code[3];
 } ByteCode;
 
-int emitProgram(OpList *list, Program **ret);
+int emitProgram(OpList *list, LinkedList *program);
 void printByteCode(ByteCode *code);
-void beginIterateProgram(Program *program);
-ByteCode *iterateProgram(Program *program);
 
 #endif
